@@ -1,0 +1,1 @@
+/home/mdupuis/git/radical-settings/dasboss-pc/rc/config/conky/scripts/conkyFRMois.py
