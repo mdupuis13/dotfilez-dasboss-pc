@@ -1,1 +1,2 @@
-/home/mdupuis/git/radical-settings/dasboss-pc/rc/config/conky/conky-sessionfile
+conky -c /home/mdupuis/.config/conky/conky.conf & sleep 1
+conky -c /home/mdupuis/.config/conky/md-top-conky.conf & sleep 1
