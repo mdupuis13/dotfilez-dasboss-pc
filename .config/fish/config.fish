@@ -14,7 +14,7 @@ set -gx VISUAL "geany"
 ### Uncomment only one of these!
 
 ### "bat" as manpager
-set -x MANPAGER "sh -c 'col -bx | batcat -l man -p'"
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 ### "vim" as manpager
 # set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
@@ -199,7 +199,6 @@ alias .5='cd ../../../../..'
 #alias vim='nvim'
 
 # bat
-alias bat='batcat'
 alias cat='bat'
 
 # Changing "ls"
