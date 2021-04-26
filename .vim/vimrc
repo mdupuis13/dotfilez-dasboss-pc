@@ -10,16 +10,16 @@ set fileencoding=utf-8
 let mapleader=","
 
 " change colorscheme if supported
-if &t_Co >= 256 || has("gui_running")
+"if &t_Co >= 256 || has("gui_running")
    colorscheme matrix
-endif
+"endif
 
-if exists('+colorcolumn')
-    set colorcolumn=80
-else
-    hi OverLength ctermbg=7 ctermfg=white guibg=#FFD9D9
-    match OverLength '\%>80v.\+'
-endif
+"if exists('+colorcolumn')
+"    set colorcolumn=80
+"else
+"    hi OverLength ctermbg=7 ctermfg=white guibg=#FFD9D9
+"    match OverLength '\%>80v.\+'
+"endif
 
 " change font if supported
 if has("gui_running")
@@ -41,9 +41,9 @@ if has("gui_running")
 
   "
     if has("gui_gtk2")
-        set guifont=Inconsolata\ 12
+        set guifont=mononoki\ 12
     elseif has("gui_win32") || has('win64')
-        set guifont=Consolas:h11:cANSI
+        set guifont=mononoki:h11:cANSI
     endif
 endif
 
