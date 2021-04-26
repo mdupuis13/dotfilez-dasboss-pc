@@ -14,13 +14,10 @@ set -gx VISUAL "geany"
 ### Uncomment only one of these!
 
 ### "bat" as manpager
-#set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+set -x MANPAGER "sh -c 'col -bx | batcat -l man -p'"
 
 ### "vim" as manpager
- set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
-
-### "nvim" as manpager
-# set -x MANPAGER "nvim -c 'set ft=man' -"
+# set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
 
 ### SET EITHER DEFAULT EMACS MODE OR VI MODE ###
 function fish_user_key_bindings
@@ -202,7 +199,8 @@ alias .5='cd ../../../../..'
 #alias vim='nvim'
 
 # bat
-# alias cat='bat'
+alias bat='batcat'
+alias cat='bat'
 
 # Changing "ls"
 alias l='ls -l --color=always --group-directories-first' # my preferred listing
