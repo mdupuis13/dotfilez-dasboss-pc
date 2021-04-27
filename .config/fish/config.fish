@@ -14,10 +14,10 @@ set -gx VISUAL "geany"
 ### Uncomment only one of these!
 
 ### "bat" as manpager
-set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+#set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 ### "vim" as manpager
-# set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
+set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
 
 ### SET EITHER DEFAULT EMACS MODE OR VI MODE ###
 function fish_user_key_bindings
@@ -183,7 +183,7 @@ end
 
 ### ALIASES ###
 # spark aliases
-alias clear='/bin/clear; echo; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo; echo'
+alias clear='/usr/bin/clear; echo; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo; echo'
 
 # root privileges
 alias doas="doas --"
@@ -203,8 +203,7 @@ alias cat='bat'
 
 # Changing "ls"
 alias l='ls -l --color=always --group-directories-first' # my preferred listing
-alias la='ls -a --color=always --group-directories-first'  # all files and dirs
-alias ll='ls -l --color=always --group-directories-first'  # long format
+alias la='ls -al --color=always --group-directories-first'  # all files and dirs
 alias lt='ls -aT --color=always --group-directories-first' # tree listing
 alias l.='ls -a | egrep "^\."'
 

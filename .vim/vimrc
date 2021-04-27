@@ -2,17 +2,25 @@
 set nocompatible
 set modelines=0
 
+call plug#begin('~/.vim/plugged')
+" Make sure you use single quotes
+"
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'junegunn/vim-easy-align'
+
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+" Initialize plugin system
+call plug#end()
+
+
 " set file encoding to UTF-8
 set encoding=utf-8
 set fileencoding=utf-8
 
 " change the mapleader from \ to ,
 let mapleader=","
-
-" change colorscheme if supported
-"if &t_Co >= 256 || has("gui_running")
-   colorscheme matrix
-"endif
 
 "if exists('+colorcolumn')
 "    set colorcolumn=80
@@ -24,7 +32,7 @@ let mapleader=","
 " change font if supported
 if has("gui_running")
 
-  set lines=34 columns=134
+"  set lines=34 columns=134
   
     if exists('+colorcolumn')
         set colorcolumn=125
@@ -33,18 +41,6 @@ if has("gui_running")
         match OverLength '\%>132v.\+'
     endif
 
-    if has('win32') || has('win64')
-        set lines=35 columns=150
-        colorscheme evening_mdupuis
-        let $MYVIMRC="C:\\Travail\\Apps\\Vim\\vimrc"
-    endif
-
-  "
-    if has("gui_gtk2")
-        set guifont=mononoki\ 12
-    elseif has("gui_win32") || has('win64')
-        set guifont=mononoki:h11:cANSI
-    endif
 endif
 
 " Quickly edit/reload the vimrc file
@@ -110,6 +106,11 @@ if &t_Co > 2 || has("gui_running")
    syntax on
 endif
 
+" change colorscheme if supported
+if &t_Co >= 256 || has("gui_running")
+   colorscheme codeschool
+endif
+
 " show whitespaces
 set nolist
 set listchars=tab:▸\ ,eol:¬,trail:.,extends:#,nbsp:.
@@ -132,14 +133,14 @@ inoremap <C-k> <C-w>k
 inoremap <C-l> <C-w>l
 
 " disable arrow keys in insert and normal modes
-"nnoremap <up> <nop>
-"nnoremap <down> <nop>
-"nnoremap <left> <nop>
-"nnoremap <right> <nop>
-"inoremap <up> <nop>
-"inoremap <down> <nop>
-"inoremap <left> <nop>
-"inoremap <right> <nop>
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
 
 set laststatus=2
 set statusline=                           " resets the status line
