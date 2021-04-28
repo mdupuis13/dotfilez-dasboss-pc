@@ -1,1 +1,1 @@
-/home/mdupuis/.local/share/omf/themes/solarfish/fish_prompt.fish
+/home/mdupuis/.local/share/omf/themes/dmorrell/fish_prompt.fish

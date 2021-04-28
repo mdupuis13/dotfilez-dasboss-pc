@@ -11,6 +11,9 @@ Plug 'junegunn/vim-easy-align'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
+" theme
+Plug 'mukiwu/vim-tomorrow-night'
+
 " Initialize plugin system
 call plug#end()
 
@@ -48,7 +51,7 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nmap <leader>l :set list!<CR>
 " clearing highlighted searches
-nmap <silent> ,. :nohlsearch<CR>
+nmap <silent> <leader>. :nohlsearch<CR>
 
 " CTRL-F2 removes/shows Commandbar and menubar
 map <silent> <C-F2> :if &guioptions =~# 'T' <Bar>
@@ -88,6 +91,9 @@ set incsearch     " show search matches as you type
 
 set history=1000         " remember more commands and search history
 set undolevels=1000      " use many muchos levels of undo
+if !has('nvim')
+  set ttymouse=sgr
+endif
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
 set visualbell           " don't beep
@@ -106,10 +112,7 @@ if &t_Co > 2 || has("gui_running")
    syntax on
 endif
 
-" change colorscheme if supported
-if &t_Co >= 256 || has("gui_running")
-   colorscheme codeschool
-endif
+colorscheme Tomorrow-Night
 
 " show whitespaces
 set nolist
@@ -120,6 +123,9 @@ highlight NonText guifg=grey40
 highlight SpecialKey guifg=grey40
 
 nnoremap <F5> :buffers<CR>:buffer<Space>
+
+" Toggle relative line numbers and regular line numbers.
+nmap <F6> :set invrelativenumber<CR>
 
 " remap CTRL-hjkl to move between windows
 nnoremap <C-h> <C-w>h
