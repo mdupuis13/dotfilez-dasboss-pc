@@ -113,6 +113,8 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 colorscheme Tomorrow-Night
+hi NonText ctermbg=none
+hi Normal guibg=NONE ctermbg=NONE
 
 " show whitespaces
 set nolist

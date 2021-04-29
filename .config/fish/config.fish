@@ -1,4 +1,4 @@
-### ADDING TO THE PATH
+## ADDING TO THE PATH
 # First line removes the path; second line sets it.  Without the first line,
 # your path gets massive and fish becomes very slow.
 set -e fish_user_paths
@@ -14,10 +14,10 @@ set -gx VISUAL "geany"
 ### Uncomment only one of these!
 
 ### "bat" as manpager
-#set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 ### "vim" as manpager
-set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
+# set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
 
 ### SET EITHER DEFAULT EMACS MODE OR VI MODE ###
 function fish_user_key_bindings
@@ -202,8 +202,9 @@ alias .5='cd ../../../../..'
 alias cat='bat'
 
 # Changing "ls"
+alias ls='ls --color=always'
 alias l='ls -l --color=always --group-directories-first' # my preferred listing
-alias la='ls -al --color=always --group-directories-first'  # all files and dirs
+alias la='ls -Al --color=always --group-directories-first'  # all files and dirs
 alias lt='ls -aT --color=always --group-directories-first' # tree listing
 alias l.='ls -a | egrep "^\."'
 

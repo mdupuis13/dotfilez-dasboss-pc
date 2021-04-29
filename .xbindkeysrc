@@ -122,6 +122,10 @@
 "scrot -d 10 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/ ; bl-image-viewer ~/Pictures/screenshots/$f'"
     Control + Alt + Print
 
+# mdupuis settings
+# double-click on M570 mouse 9 (front left button) release
+"/usr/bin/xte 'mouseclick 1' 'mouseclick 1' &amp;"
+b:9 + Release
 # Show xbindkeys settings
 # (install tk to use this)
 #"xbindkeys_show"
