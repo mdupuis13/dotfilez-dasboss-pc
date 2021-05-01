@@ -1,8 +1,9 @@
-## ADDING TO THE PATH
+# ADDING TO THE PATH
 # First line removes the path; second line sets it.  Without the first line,
 # your path gets massive and fish becomes very slow.
 set -e fish_user_paths
 set -U fish_user_paths $HOME/bin $HOME/.local/bin $fish_user_paths
+set fish_prompt_pwd_dir_length 1
 
 ### EXPORT ###
 set fish_greeting                                 # Supresses fish's intro message
