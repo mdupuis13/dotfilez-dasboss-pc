@@ -1,0 +1,13 @@
+Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=true:hinting=true"
+       , bgColor = "#1E1D1D"
+       , fgColor = "#0099ff"
+       , position = TopW L 99
+       , commands = [ Run MultiCpu ["-t","Cpu: <fc=#99d6ff><autototal>%</fc>","-L","3","-H","50","--normal","green","--high","red"] 10
+                    , Run Memory ["-t","Mem: <fc=#99d6ff><usedratio>%</fc>"] 10
+                    , Run Date "%a %b %_d %_H:%M" "date" 10
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ %multicpu% | %memory%    <fc=#0099ff>%date%</fc>"
+       }
