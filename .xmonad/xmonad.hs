@@ -21,6 +21,7 @@ import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcompo
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
 import XMonad.Hooks.ServerMode
+import XMonad.Hooks.InsertPosition
 -- import XMonad.Hooks.SetWMName
 
 -- Layouts
@@ -42,7 +43,6 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
-
 -- Utils
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.NamedScratchpad
@@ -73,6 +73,12 @@ myFocusColor  = "#3366ff"   -- Border color of focused windows
 
 myStartupHook :: X ()
 myStartupHook = do
+    -- Turn on/off system beep.
+    spawnOnce "xset b off"
+
+    -- Set keyboard settings - 250 ms delay and 25 cps (characters per second) repeat rate.
+    -- Adjust the values according to your preferances.
+    spawnOnce "xset r rate 250 25"
     spawnOnce "nitrogen --restore"
     -- Compton
     spawnOnce "bl-compositor --start"
@@ -93,7 +99,7 @@ myStartupHook = do
     
 --Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
-mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
+mySpacing i = spacingRaw False (Border i (i * 3) i i) True (Border i i i i) True
 
 
 -- Defining a bunch of layouts, many that I don't use.
@@ -127,7 +133,7 @@ myShowWNameTheme = def
     { swn_font              = "xft:Montserrat:SemiBold:size=60"
     , swn_fade              = 1.0
     , swn_bgcolor           = "#1e1d1d"
-    , swn_color             = "#5e5d5d"
+    , swn_color             = "#3366ff"
     }
 
 -- The layout hook
@@ -160,11 +166,12 @@ myManageHook = composeAll
      , className =? "splash"          --> doFloat
      , className =? "toolbar"         --> doFloat
      , title =? "Oracle VM VirtualBox Manager"  --> doFloat
-     , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 2 )
-     , title =? "Chromium       "     --> doShift ( myWorkspaces !! 2 )
+     , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
+     , className =? "Chromium"     --> doShift ( myWorkspaces !! 1 )
      , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
-     , className =? "mpv"             --> doShift ( myWorkspaces !! 6 )
-     , className =? "Gimp"            --> doShift ( myWorkspaces !! 7 )
+     , className =? "mpv"             --> doShift ( myWorkspaces !! 5 )
+     , className =? "vlc"             --> doShift ( myWorkspaces !! 5 )
+     , className =? "Gimp"            --> doShift ( myWorkspaces !! 6 )
      , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
      , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
      , isFullscreen -->  doFullFloat
@@ -176,14 +183,14 @@ main = do
     xmproc <- spawnPipe "xmobar"
     -- the xmonad, ya know...what the WM is named after!
     xmonad $ ewmh def
-            { manageHook         = myManageHook <+> manageDocks
+            { manageHook         = insertPosition End Newer <+> myManageHook <+> manageDocks
             , handleEventHook    = docksEventHook
             , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppCurrent = xmobarColor "#99d6ff" "" . wrap "[" "]"
                         , ppVisible = xmobarColor "#0099ff" ""               -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""  -- Hidden workspaces
-                        , ppHiddenNoWindows = xmobarColor "#c792ea" ""       -- Hidden workspaces (no windows)
+                        , ppHidden = xmobarColor "#0099ff" "" . wrap "*" ""  -- Hidden workspaces
+                        , ppHiddenNoWindows = xmobarColor "#6e6d6d" ""       -- Hidden workspaces (no windows)
                         , ppTitle = xmobarColor "#0099ff" "" . shorten 80
                         , ppSep =   "<fc=#0099ff> | </fc>"
                         }
