@@ -1,13 +1,15 @@
 Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=true:hinting=true"
-       , bgColor = "#1E1D1D"
+       , bgColor = "#1e1d1d"
        , fgColor = "#0099ff"
        , position = TopW L 99
        , commands = [ Run MultiCpu ["-t","Cpu: <fc=#99d6ff><autototal>%</fc>","-L","3","-H","50","--normal","green","--high","red"] 10
                     , Run Memory ["-t","Mem: <fc=#99d6ff><usedratio>%</fc>"] 10
                     , Run Date "%a %b %_d %_H:%M" "date" 10
+                      -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
+                    , Run Com "/home/mdupuis/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %multicpu% | %memory%    <fc=#0099ff>%date%</fc>"
+       , template = "%StdinReader% }{ %multicpu% | %memory%    <fc=#0099ff>%date%</fc> %trayerpad%"
        }

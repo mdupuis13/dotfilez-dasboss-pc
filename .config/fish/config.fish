@@ -2,7 +2,7 @@
 # First line removes the path; second line sets it.  Without the first line,
 # your path gets massive and fish becomes very slow.
 set -e fish_user_paths
-set -U fish_user_paths $HOME/bin $HOME/.local/bin $fish_user_paths
+set -U fish_user_paths $HOME/go/bin $HOME/bin $HOME/.local/bin $fish_user_paths
 set fish_prompt_pwd_dir_length 1
 
 ### EXPORT ###
@@ -184,7 +184,7 @@ end
 
 ### ALIASES ###
 # spark aliases
-alias clear='/usr/bin/clear; echo; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo; echo'
+alias clear='/usr/bin/clear; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo'
 
 # root privileges
 alias doas="doas --"
@@ -335,6 +335,5 @@ alias ytv-best="youtube-dl -f bestvideo+bestaudio "
 
 ### RANDOM COLOR SCRIPT ###
 # Get this script from my GitLab: gitlab.com/dwt1/shell-color-scripts
-# Or install it from the Arch User Repository: shell-color-scripts
 colorscript random
 
