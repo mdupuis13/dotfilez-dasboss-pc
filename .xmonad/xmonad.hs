@@ -84,7 +84,7 @@ myStartupHook = do
     spawnOnce "bl-compositor --start"
     -- Start the Conky session (the default conkyrc will run if no sessions have been set)
     spawnOnce "bl-conky-session --autostart &"
-    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --iconspacing 2 --transparent true --alpha 0 --tint 0x1e1d1d  --height 24 &"
+    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --iconspacing 2 --transparent true --alpha 150 --tint 0x1e1d1d  --height 24 &"
     -- start keybinds daemon
     -- (If this clashes with some window manager's keybinds,
     -- you can move it to the window-manager-dependent section below.)
@@ -124,6 +124,7 @@ grid     = renamed [Replace "grid"]
            $ Grid (16/10)
 threeCol = renamed [Replace "threeCol"]
            $ smartBorders
+           $ mySpacing 8
            $ limitWindows 7
            $ ThreeCol 1 (3/100) (1/2)
 
@@ -168,7 +169,9 @@ myManageHook = composeAll
      , title =? "Oracle VM VirtualBox Manager"  --> doFloat
      , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
      , className =? "Chromium"     --> doShift ( myWorkspaces !! 1 )
+     , className =? "Brave-browser"     --> doShift ( myWorkspaces !! 1 )
      , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
+     , className =? "Google Hangouts – mdupuis13@gmail.com"     --> doShift ( myWorkspaces !! 4 )
      , className =? "mpv"             --> doShift ( myWorkspaces !! 5 )
      , className =? "vlc"             --> doShift ( myWorkspaces !! 5 )
      , className =? "Gimp"            --> doShift ( myWorkspaces !! 6 )
@@ -191,6 +194,7 @@ main = do
                         , ppVisible = xmobarColor "#0099ff" ""               -- Visible but not current workspace
                         , ppHidden = xmobarColor "#0099ff" "" . wrap "*" ""  -- Hidden workspaces
                         , ppHiddenNoWindows = xmobarColor "#6e6d6d" ""       -- Hidden workspaces (no windows)
+                        , ppLayout = xmobarColor "#99d6ff" ""
                         , ppTitle = xmobarColor "#0099ff" "" . shorten 80
                         , ppSep =   "<fc=#0099ff> | </fc>"
                         }

@@ -1,4 +1,5 @@
 Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=true:hinting=true"
+       , alpha = 150
        , bgColor = "#1e1d1d"
        , fgColor = "#0099ff"
        , position = TopW L 99
