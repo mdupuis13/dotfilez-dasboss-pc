@@ -69,7 +69,16 @@ myNormColor :: String
 myNormColor   = "#1e1d1d"   -- Border color of normal windows
 
 myFocusColor :: String
-myFocusColor  = "#3366ff"   -- Border color of focused windows
+myFocusColor  = "#0099ff"   -- Border color of focused windows
+
+myLightColor :: String
+myLightColor  = "#99d6ff"   -- Border color of focused windows
+
+myHiddenColor :: String
+myHiddenColor  = "#6e6d6d"   -- Border color of focused windows
+
+myNormBgColor :: String
+myNormBgColor  = "#1e1d1d"
 
 myStartupHook :: X ()
 myStartupHook = do
@@ -122,30 +131,30 @@ grid     = renamed [Replace "grid"]
            $ mySpacing 8
            $ mkToggle (single MIRROR)
            $ Grid (16/10)
-threeCol = renamed [Replace "threeCol"]
+threeColMid = renamed [Replace "threeColMid"]
            $ smartBorders
            $ mySpacing 8
            $ limitWindows 7
-           $ ThreeCol 1 (3/100) (1/2)
+           $ ThreeColMid 1 (3/100) (10/16)
 
 -- Theme for showWName which prints current workspace when you change workspaces.
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
     { swn_font              = "xft:Montserrat:SemiBold:size=60"
     , swn_fade              = 1.0
-    , swn_bgcolor           = "#1e1d1d"
-    , swn_color             = "#3366ff"
+    , swn_bgcolor           = myNormBgColor
+    , swn_color             = myFocusColor
     }
 
 -- The layout hook
 myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
-               myDefaultLayout =  withBorder myBorderWidth tall
+               myDefaultLayout =  withBorder myBorderWidth threeColMid
                                  ||| noBorders monocle
                                  ||| floats
                                  ||| grid
-                                 ||| threeCol
+                                 ||| tall
 
 -- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 "]
 myWorkspaces = ["dev", "www", "sys", "vbox", "comm", "media", "gfx"]
@@ -190,13 +199,13 @@ main = do
             , handleEventHook    = docksEventHook
             , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
-                        , ppCurrent = xmobarColor "#99d6ff" "" . wrap "[" "]"
-                        , ppVisible = xmobarColor "#0099ff" ""               -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#0099ff" "" . wrap "*" ""  -- Hidden workspaces
-                        , ppHiddenNoWindows = xmobarColor "#6e6d6d" ""       -- Hidden workspaces (no windows)
-                        , ppLayout = xmobarColor "#99d6ff" ""
-                        , ppTitle = xmobarColor "#0099ff" "" . shorten 80
-                        , ppSep =   "<fc=#0099ff> | </fc>"
+                        , ppCurrent = xmobarColor myLightColor "" . wrap "[" "]"
+                        , ppVisible = xmobarColor myFocusColor ""               -- Visible but not current workspace
+                        , ppHidden = xmobarColor myFocusColor "" . wrap "*" ""  -- Hidden workspaces
+                        , ppHiddenNoWindows = xmobarColor myHiddenColor ""       -- Hidden workspaces (no windows)
+                        , ppLayout = xmobarColor myLightColor ""
+                        , ppTitle = xmobarColor myFocusColor "" . shorten 80
+                        , ppSep =   "<fc=#3366ff> | </fc>"
                         }
             , modMask = myModMask
             , terminal = myTerminal
