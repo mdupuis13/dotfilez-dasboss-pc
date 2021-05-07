@@ -105,9 +105,12 @@ myStartupHook = do
     spawnOnce "bl-compositor --start"
     -- Start the Conky session (the default conkyrc will run if no sessions have been set)
     spawnOnce "bl-conky-session --autostart &"
+    -- bind special keys (double-click on mouse 9 mainly)
+    spawnOnce "xbindkeys_autostart"
+    -- load the tray space
     spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --iconspacing 2 --transparent true --alpha 150 --tint 0x1e1d1d  --height 24 &"
     -- Volume control for systray
-    spawnOnce "pnmixer &"
+    --spawnOnce "pnmixer &"
     -- Start Clipboard manager
     spawnOnce "clipit &"
     -- Run the XDG autostart stuff. This requires python3-xdg to be installed.
@@ -125,7 +128,7 @@ mySpacing i = spacingRaw False (Border i (i * 3) i i) True (Border i i i i) True
 tall     = renamed [Replace "tall"]
            $ smartBorders
            $ limitWindows 12
-           $ mySpacing 8
+           $ mySpacing 5
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ smartBorders
@@ -136,12 +139,12 @@ floats   = renamed [Replace "floats"]
 grid     = renamed [Replace "grid"]
            $ smartBorders
            $ limitWindows 12
-           $ mySpacing 8
+           $ mySpacing 5
            $ mkToggle (single MIRROR)
            $ Grid (16/10)
 threeColMid = renamed [Replace "threeColMid"]
            $ smartBorders
-           $ mySpacing 8
+           $ mySpacing 5
            $ limitWindows 7
            $ ThreeColMid 1 (3/100) (10/16)
 
@@ -183,6 +186,7 @@ myManageHook = composeAll
      , className =? "pinentry-gtk-2"  --> doFloat
      , className =? "splash"          --> doFloat
      , className =? "Galculator"      --> doFloat
+     , className =? "Pavucontrol"      --> doFloat
      , title =? "Oracle VM VirtualBox Manager"  --> doFloat
      , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
      , className =? "Chromium"        --> doShift ( myWorkspaces !! 1 )
@@ -204,6 +208,7 @@ myKeys =
         [ ("M-C-r", spawn "xmonad --recompile")  -- Recompiles xmonad
         , ("M-S-r", spawn "xmonad --restart")    -- Restarts xmonad
         , ("M-S-q", io exitSuccess)              -- Quits xmonad
+        , ("M-S-l", spawn "bl-lock")               -- locks session 
 
     -- Run Prompt
         , ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
@@ -288,6 +293,7 @@ myKeys =
         , ("M-u <Space>", spawn "mocp --toggle-pause")
 
     -- Multimedia Keys
+        , ("M-v", spawn "pavucontrol")
         , ("<XF86AudioPlay>", spawn (myTerminal ++ "mocp --play"))
         , ("<XF86AudioPrev>", spawn (myTerminal ++ "mocp --previous"))
         , ("<XF86AudioNext>", spawn (myTerminal ++ "mocp --next"))

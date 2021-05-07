@@ -55,72 +55,72 @@
 # See 'man xbindkeys' for more information.
 
 # Show main menu
-"jgmenu_run"
-    Mod4 + space
+#"jgmenu_run"
+#    Mod4 + space
 
 # Run Program
-"gmrun"
-    Alt + F2
+#"gmrun"
+#    Alt + F2
 
 # Show dmenu
-"~/.config/dmenu/dmenu-bind.sh"
-    Alt + F3
+#"~/.config/dmenu/dmenu-bind.sh"
+#    Alt + F3
 
 # Terminal
-"x-terminal-emulator"
-    Mod4 + t
+#"x-terminal-emulator"
+#    Mod4 + t
 
 # Web Browser
-"x-www-browser"
-    Mod4 + w
+#"x-www-browser"
+#    Mod4 + w
 
 # File Manager
-"bl-file-manager"
-    Mod4 + f
+#"bl-file-manager"
+#    Mod4 + f
 
 # Editor
-"bl-text-editor"
-    Mod4 + e
+#"bl-text-editor"
+#    Mod4 + e
 
 # Media Player
-"bl-media-player"
-    Mod4 + m
+#"bl-media-player"
+#    Mod4 + m
 
 # Email
-"claws-mail"
-    Mod4 + c
+#"claws-mail"
+#    Mod4 + c
     
 # Volume
-"pavucontrol"
-    Mod4 + v
+#"pavucontrol"
+#    Mod4 + v
 
 # htop task manager
-"x-terminal-emulator -T 'htop task manager' -e htop"
-    Mod4 + h
+#"x-terminal-emulator -T 'htop task manager' -e htop"
+#    Mod4 + h
 
 # Lock Screen
-"bl-lock"
-    Mod4 + l
+#"bl-lock"
+#    Mod4 + l
 
 # Logout
-"bl-exit"
-    Mod4 + x
+#"bl-exit"
+#    Mod4 + x
 
 # Kill a Window
-"xkill"
-    Mod4 + Escape
+#"xkill"
+#    Mod4 + Escape
 
 # Print Screen (xfce)
-"xfce4-screenshooter"
-    Print
+#"xfce4-screenshooter"
+#    Print
 
 # Print Screen (scrot)
-"scrot '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/ ; bl-image-viewer ~/Pictures/screenshots/$f'"
-    Alt + Print
+#"scrot '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/ ; bl-image-viewer ~/Pictures/screenshots/$f'"
+#    Alt + Print
 
 # Scrot with 10s delay
-"scrot -d 10 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/ ; bl-image-viewer ~/Pictures/screenshots/$f'"
-    Control + Alt + Print
+#"scrot -d 10 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/ ; bl-image-viewer ~/Pictures/screenshots/$f'"
+#    Control + Alt + Print
 
 # mdupuis settings
 # double-click on M570 mouse 9 (front left button) release
