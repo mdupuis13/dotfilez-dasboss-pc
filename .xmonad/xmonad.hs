@@ -119,7 +119,7 @@ myStartupHook = do
     
 --Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
-mySpacing i = spacingRaw False (Border i (i * 3) i i) True (Border i i i i) True
+mySpacing i = spacingRaw False (Border i (i * 4) i i) True (Border i i i i) True
 
 
 -- Defining a bunch of layouts, many that I don't use.
