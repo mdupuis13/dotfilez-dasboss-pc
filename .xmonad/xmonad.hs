@@ -1,18 +1,25 @@
 import XMonad
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
---import qualified XMonad.StackSet as W
+import qualified XMonad.StackSet as W
 
 
 -- Actions
+import XMonad.Actions.CopyWindow (kill1)
+import XMonad.Actions.CycleWS (Direction1D(..), moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
+import XMonad.Actions.Promote
+import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
 import XMonad.Actions.MouseResize
+import XMonad.Actions.WindowGo (runOrRaise)
+import XMonad.Actions.WithAll (sinkAll, killAll)
+
 
 -- Data
--- import Data.Char (isSpace, toUpper)
+import Data.Char (isSpace, toUpper)
 -- import Data.Maybe (fromJust)
 import Data.Monoid
 -- import Data.Maybe (isJust)
--- import Data.Tree
+--import Data.Tree
 import qualified Data.Map as M
 
 -- Hooks
@@ -20,7 +27,7 @@ import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, s
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
-import XMonad.Hooks.ServerMode
+--import XMonad.Hooks.ServerMode
 import XMonad.Hooks.InsertPosition
 -- import XMonad.Hooks.SetWMName
 
@@ -40,12 +47,13 @@ import XMonad.Layout.Renamed
 import XMonad.Layout.ShowWName
 --import XMonad.Layout.Simplest
 import XMonad.Layout.Spacing
-import XMonad.Layout.SubLayouts
+--import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 -- Utils
-import XMonad.Util.EZConfig(additionalKeys)
-import XMonad.Util.NamedScratchpad
+import XMonad.Util.Dmenu
+import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
 import XMonad.Util.SpawnOnce
 
@@ -60,13 +68,17 @@ myTerminal :: String
 myTerminal = "kitty"    -- Sets default terminal
 
 myBrowser :: String
-myBrowser = "qutebrowser "  -- Sets qutebrowser as browser
+myBrowser = "firefox "  -- Sets firefox as browser
+
+myFileManager :: String
+myFileManager = "thunar "  -- Sets my prefered file manager 
 
 myBorderWidth :: Dimension
 myBorderWidth = 2           -- Sets border width for windows
 
 myNormColor :: String
-myNormColor   = "#1e1d1d"   -- Border color of normal windows
+myNormColor   = "#003366"   -- Border color of normal windows
+--myNormColor   = "#1e1d1d"   -- Border color of normal windows
 
 myFocusColor :: String
 myFocusColor  = "#0099ff"   -- Border color of focused windows
@@ -94,10 +106,6 @@ myStartupHook = do
     -- Start the Conky session (the default conkyrc will run if no sessions have been set)
     spawnOnce "bl-conky-session --autostart &"
     spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --iconspacing 2 --transparent true --alpha 150 --tint 0x1e1d1d  --height 24 &"
-    -- start keybinds daemon
-    -- (If this clashes with some window manager's keybinds,
-    -- you can move it to the window-manager-dependent section below.)
-    spawnOnce "xbindkeys_autostart"
     -- Volume control for systray
     spawnOnce "pnmixer &"
     -- Start Clipboard manager
@@ -150,11 +158,11 @@ myShowWNameTheme = def
 myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
-               myDefaultLayout =  withBorder myBorderWidth threeColMid
+               myDefaultLayout =  tall
+                                 ||| threeColMid
                                  ||| noBorders monocle
-                                 ||| floats
                                  ||| grid
-                                 ||| tall
+                                 ||| floats
 
 -- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 "]
 myWorkspaces = ["dev", "www", "sys", "vbox", "comm", "media", "gfx"]
@@ -174,20 +182,125 @@ myManageHook = composeAll
      , className =? "notification"    --> doFloat
      , className =? "pinentry-gtk-2"  --> doFloat
      , className =? "splash"          --> doFloat
-     , className =? "toolbar"         --> doFloat
+     , className =? "Galculator"      --> doFloat
      , title =? "Oracle VM VirtualBox Manager"  --> doFloat
      , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
-     , className =? "Chromium"     --> doShift ( myWorkspaces !! 1 )
-     , className =? "Brave-browser"     --> doShift ( myWorkspaces !! 1 )
+     , className =? "Chromium"        --> doShift ( myWorkspaces !! 1 )
+     , className =? "Brave-browser"   --> doShift ( myWorkspaces !! 1 )
      , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
      , className =? "Google Hangouts – mdupuis13@gmail.com"     --> doShift ( myWorkspaces !! 4 )
      , className =? "mpv"             --> doShift ( myWorkspaces !! 5 )
+     , className =? "Audacious"       --> doShift ( myWorkspaces !! 5 )
      , className =? "vlc"             --> doShift ( myWorkspaces !! 5 )
      , className =? "Gimp"            --> doShift ( myWorkspaces !! 6 )
      , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
      , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
      , isFullscreen -->  doFullFloat
      ]
+
+myKeys :: [(String, X ())]
+myKeys =
+    -- Xmonad
+        [ ("M-C-r", spawn "xmonad --recompile")  -- Recompiles xmonad
+        , ("M-S-r", spawn "xmonad --restart")    -- Restarts xmonad
+        , ("M-S-q", io exitSuccess)              -- Quits xmonad
+
+    -- Run Prompt
+        , ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
+
+    -- Other Dmenu Prompts
+    -- In Xmonad and many tiling window managers, M-p is the default keybinding to
+    -- launch dmenu_run, so I've decided to use M-p plus KEY for these dmenu scripts.
+        , ("M-p a", spawn "dmsounds")  -- pick color from our scheme
+        , ("M-p c", spawn "dmcolors")  -- pick color from our scheme
+        , ("M-p e", spawn "dmconf")   -- edit config files
+        , ("M-p i", spawn "dmscrot")  -- screenshots (images)
+        , ("M-p k", spawn "dmkill")   -- kill processes
+        , ("M-p m", spawn "dman")     -- manpages
+        , ("M-p o", spawn "dmqute")   -- qutebrowser bookmarks/history
+        , ("M-p p", spawn "passmenu") -- passmenu
+        , ("M-p q", spawn "dmlogout") -- logout menu
+        , ("M-p r", spawn "dmred")    -- reddio (a reddit viewer)
+        , ("M-p s", spawn "dmsearch") -- search various search engines
+
+    -- Useful programs to have a keybinding for launch
+        , ("M-<Return>", spawn (myTerminal))
+        , ("M-b", spawn (myBrowser ++ " about:blank"))
+        , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
+        , ("M-S-e", spawn (myFileManager))
+
+    -- Kill windows
+        , ("M-S-c", kill1)     -- Kill the currently focused client
+        , ("M-S-a", killAll)   -- Kill all windows on current workspace
+
+    -- Workspaces
+        , ("M-.", nextScreen)  -- Switch focus to next monitor
+        , ("M-,", prevScreen)  -- Switch focus to prev monitor
+
+    -- Floating windows
+        , ("M-f", sendMessage (T.Toggle "floats")) -- Toggles my 'floats' layout
+        , ("M-t", withFocused $ windows . W.sink)  -- Push floating window back to tile
+        , ("M-S-t", sinkAll)                       -- Push ALL floating windows to tile
+
+    -- Increase/decrease spacing (gaps)
+        , ("C-M1-j", decWindowSpacing 4)         -- Decrease window spacing
+        , ("C-M1-k", incWindowSpacing 4)         -- Increase window spacing
+        , ("C-M1-h", decScreenSpacing 4)         -- Decrease screen spacing
+        , ("C-M1-l", incScreenSpacing 4)         -- Increase screen spacing
+
+    -- Windows navigation
+        , ("M-m", windows W.focusMaster)  -- Move focus to the master window
+        , ("M-j", windows W.focusDown)    -- Move focus to the next window
+        , ("M-k", windows W.focusUp)      -- Move focus to the prev window
+        , ("M-S-m", windows W.swapMaster) -- Swap the focused window and the master window
+        , ("M-S-j", windows W.swapDown)   -- Swap focused window with next window
+        , ("M-S-k", windows W.swapUp)     -- Swap focused window with prev window
+        , ("M-<Backspace>", promote)      -- Moves focused window to master, others maintain order
+        , ("M-S-<Tab>", rotSlavesDown)    -- Rotate all windows except master and keep focus in place
+        , ("M-C-<Tab>", rotAllDown)       -- Rotate all the windows in the current stack
+
+    -- Layouts
+        , ("M-<Tab>", sendMessage NextLayout)           -- Switch to next layout
+        , ("M-<Space>", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts) -- Toggles noborder/full
+
+    -- Increase/decrease windows in the master pane or the stack
+        , ("M-S-<Up>", sendMessage (IncMasterN 1))      -- Increase # of clients master pane
+        , ("M-S-<Down>", sendMessage (IncMasterN (-1))) -- Decrease # of clients master pane
+        , ("M-C-<Up>", increaseLimit)                   -- Increase # of windows
+        , ("M-C-<Down>", decreaseLimit)                 -- Decrease # of windows
+
+    -- Window resizing
+        , ("M-h", sendMessage Shrink)                   -- Shrink horiz window width
+        , ("M-l", sendMessage Expand)                   -- Expand horiz window width
+        , ("M-M1-j", sendMessage MirrorShrink)          -- Shrink vert window width
+        , ("M-M1-k", sendMessage MirrorExpand)          -- Expand vert window width
+
+    -- Set wallpaper with 'feh'. Type 'SUPER+F1' to launch sxiv in the wallpapers directory.
+    -- Then in sxiv, type 'C-x w' to set the wallpaper that you choose.
+    --, ("M-<F1>", spawn "sxiv -r -q -t -o ~/wallpapers/*")
+    --, ("M-<F2>", spawn "/bin/ls ~/wallpapers | shuf -n 1 | xargs xwallpaper --stretch")
+        --, ("M-<F2>", spawn "feh --randomize --bg-fill ~/wallpapers/*")
+
+    -- Controls for mocp music player (SUPER-u followed by a key)
+        , ("M-u p", spawn "mocp --play")
+        , ("M-u l", spawn "mocp --next")
+        , ("M-u h", spawn "mocp --previous")
+        , ("M-u <Space>", spawn "mocp --toggle-pause")
+
+    -- Multimedia Keys
+        , ("<XF86AudioPlay>", spawn (myTerminal ++ "mocp --play"))
+        , ("<XF86AudioPrev>", spawn (myTerminal ++ "mocp --previous"))
+        , ("<XF86AudioNext>", spawn (myTerminal ++ "mocp --next"))
+        , ("<XF86AudioStop>", spawn "amixer set Master toggle")
+        , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
+        , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
+        , ("<XF86Explorer>", spawn myFileManager)
+        , ("<XF86HomePage>", spawn (myBrowser ++ " about:blank"))
+        , ("<XF86Mail>", runOrRaise "claws-mail" (resource =? "claws-mail"))
+        , ("<XF86Calculator>", runOrRaise "galculator" (resource =? "galculator"))
+        , ("<XF86Tools>", runOrRaise "audacious" (resource =? "audacious"))
+        , ("<Print>", spawn "dmscrot")
+        ]
 
 main :: IO ()
 main = do
@@ -215,7 +328,5 @@ main = do
             , borderWidth        = myBorderWidth
             , normalBorderColor  = myNormColor
             , focusedBorderColor = myFocusColor
-         } `additionalKeys`
-        [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s")
-        , ((0, xK_Print), spawn "scrot")
-        ]
+         } `additionalKeysP` myKeys
+
