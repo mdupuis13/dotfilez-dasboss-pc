@@ -173,6 +173,8 @@ myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y 
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = (isDialog --> doF W.swapUp) <+> composeAll
+     -- isDialog line with the one at the bottom makes dialog windows
+     --   float over other floating windows so I can see them
      -- 'doFloat' forces a window to float.  Useful for dialog boxes and such.
      -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
      -- I'm doing it this way because otherwise I would have to write out the full

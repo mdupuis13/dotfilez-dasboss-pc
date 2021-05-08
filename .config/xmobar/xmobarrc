@@ -3,7 +3,7 @@ Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=tru
        , bgColor = "#1e1d1d"
        , fgColor = "#0099ff"
        , position = TopW L 99
-       , commands = [ Run MultiCpu ["-t","Cpu: <fc=#99d6ff><autototal>%</fc>","-L","3","-H","50","--normal","green","--high","red"] 20
+       , commands = [ Run MultiCpu ["-t","Cpu: <fc=#99d6ff><autototal>%</fc>","-L","15","-H","50","--normal","green","--high","red"] 20
                     , Run Memory ["-t","Mem: <fc=#99d6ff><usedratio>%</fc>"] 20
                     , Run DiskU [("/home", "Home:<fc=#99d6ff><usedp>%</fc>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
                     , Run Com "/home/mdupuis/.config/xmobar/getdate_fr.py" [] "date" 5
