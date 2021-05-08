@@ -26,7 +26,7 @@ import qualified Data.Map as M
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
-import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
+import XMonad.Hooks.ManageHelpers (doCenterFloat, isDialog, isFullscreen, doFullFloat)
 --import XMonad.Hooks.ServerMode
 import XMonad.Hooks.InsertPosition
 -- import XMonad.Hooks.SetWMName
@@ -119,7 +119,7 @@ myStartupHook = do
     
 --Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
-mySpacing i = spacingRaw False (Border i (i * 4) i i) True (Border i i i i) True
+mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
 
 -- Defining a bunch of layouts, many that I don't use.
@@ -168,11 +168,11 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  ||| floats
 
 -- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 "]
-myWorkspaces = ["dev", "www", "sys", "vbox", "comm", "media", "gfx"]
+myWorkspaces = ["dev", "www", "comm", "sys", "vbox", "media", "gfx"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
-myManageHook = composeAll
+myManageHook = (isDialog --> doF W.swapUp) <+> composeAll
      -- 'doFloat' forces a window to float.  Useful for dialog boxes and such.
      -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
      -- I'm doing it this way because otherwise I would have to write out the full
@@ -185,21 +185,22 @@ myManageHook = composeAll
      , className =? "notification"    --> doFloat
      , className =? "pinentry-gtk-2"  --> doFloat
      , className =? "splash"          --> doFloat
-     , className =? "Galculator"      --> doFloat
-     , className =? "Pavucontrol"      --> doFloat
+     , className =? "Galculator"      --> doCenterFloat
+     , className =? "Pavucontrol"      --> doCenterFloat
      , title =? "Oracle VM VirtualBox Manager"  --> doFloat
      , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
      , className =? "Chromium"        --> doShift ( myWorkspaces !! 1 )
      , className =? "Brave-browser"   --> doShift ( myWorkspaces !! 1 )
      , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
-     , className =? "Google Hangouts – mdupuis13@gmail.com"     --> doShift ( myWorkspaces !! 4 )
+     , className =? "Google Hangouts – mdupuis13@gmail.com"     --> doShift ( myWorkspaces !! 2)
      , className =? "mpv"             --> doShift ( myWorkspaces !! 5 )
      , className =? "Audacious"       --> doShift ( myWorkspaces !! 5 )
      , className =? "vlc"             --> doShift ( myWorkspaces !! 5 )
      , className =? "Gimp"            --> doShift ( myWorkspaces !! 6 )
-     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 3 )
-     , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 4 )
+     , (className =? "firefox" <&&> resource =? "Dialog") --> doCenterFloat  -- Float Firefox Dialog
      , isFullscreen -->  doFullFloat
+     , isDialog --> doCenterFloat
      ]
 
 myKeys :: [(String, X ())]
@@ -230,7 +231,8 @@ myKeys =
 
     -- Useful programs to have a keybinding for launch
         , ("M-<Return>", spawn (myTerminal))
-        , ("M-b", spawn (myBrowser ++ " about:blank"))
+        , ("M-b", runOrRaise "firefox" (className =? "Firefox-esr"))
+        , ("M-S-b", spawn (myBrowser ++ " about:blank"))
         , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
         , ("M-S-e", spawn (myFileManager))
 
@@ -287,16 +289,16 @@ myKeys =
         --, ("M-<F2>", spawn "feh --randomize --bg-fill ~/wallpapers/*")
 
     -- Controls for mocp music player (SUPER-u followed by a key)
-        , ("M-u p", spawn "mocp --play")
-        , ("M-u l", spawn "mocp --next")
-        , ("M-u h", spawn "mocp --previous")
-        , ("M-u <Space>", spawn "mocp --toggle-pause")
+        , ("M-u p", spawn "audacious --play")
+        , ("M-u l", spawn "audacious --fwd")
+        , ("M-u h", spawn "audacious --rew")
+        , ("M-u <Space>", spawn "audacious --play-pause")
 
     -- Multimedia Keys
         , ("M-v", spawn "pavucontrol")
-        , ("<XF86AudioPlay>", spawn (myTerminal ++ "mocp --play"))
-        , ("<XF86AudioPrev>", spawn (myTerminal ++ "mocp --previous"))
-        , ("<XF86AudioNext>", spawn (myTerminal ++ "mocp --next"))
+        , ("<XF86AudioPlay>", spawn (myTerminal ++ "audacious --play"))
+        , ("<XF86AudioPrev>", spawn (myTerminal ++ "audacious --rew"))
+        , ("<XF86AudioNext>", spawn (myTerminal ++ "audacious --fwd"))
         , ("<XF86AudioStop>", spawn "amixer set Master toggle")
         , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
         , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
