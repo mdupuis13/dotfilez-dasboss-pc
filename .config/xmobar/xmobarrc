@@ -6,6 +6,7 @@ Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=tru
        , commands = [ Run MultiCpu ["-t","Cpu: <fc=#99d6ff><autototal>%</fc>","-L","15","-H","50","--normal","green","--high","red"] 20
                     , Run Memory ["-t","Mem: <fc=#99d6ff><usedratio>%</fc>"] 20
                     , Run DiskU [("/home", "Home:<fc=#99d6ff><usedp>%</fc>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
+                    , Run Volume "default" "Master" [] 10
                     , Run Com "/home/mdupuis/.config/xmobar/getdate_fr.py" [] "date" 5
                       -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
                     , Run Com "/home/mdupuis/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
@@ -13,5 +14,5 @@ Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=tru
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %multicpu% | %memory% | %disku%    <fc=#0099ff>%date%</fc>%trayerpad%"
+       , template = "%StdinReader% }{ %multicpu% | %memory% | %disku% | %default:Master%    <fc=#0099ff>%date%</fc>%trayerpad%"
        }
