@@ -77,14 +77,14 @@ myBorderWidth :: Dimension
 myBorderWidth = 2           -- Sets border width for windows
 
 myNormColor :: String
-myNormColor   = "#003366"   -- Border color of normal windows
+myNormColor   = "#3b4252"   -- Border color of normal windows
 --myNormColor   = "#1e1d1d"   -- Border color of normal windows
 
 myFocusColor :: String
-myFocusColor  = "#0099ff"   -- Border color of focused windows
+myFocusColor  = "#81a1c1"   -- Border color of focused windows
 
 myLightColor :: String
-myLightColor  = "#99d6ff"   -- Border color of focused windows
+myLightColor  = "#81a1c1"   -- Border color of focused windows
 
 myHiddenColor :: String
 myHiddenColor  = "#6e6d6d"   -- Border color of focused windows
@@ -217,6 +217,7 @@ myKeys =
 
     -- Run Prompt
         -- , ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
+        , ("M-p", spawn "dmenu_run -i -nb '#2E3440' -nf '#81a1c1' -sb '#3b4252' -sf '#81a1c1'") -- Dmenu
 
     -- Other Dmenu Prompts
     -- In Xmonad and many tiling window managers, M-p is the default keybinding to
@@ -342,7 +343,7 @@ main = do
                         , ppHiddenNoWindows = xmobarColor myHiddenColor ""       -- Hidden workspaces (no windows)
                         , ppLayout = xmobarColor myLightColor ""
                         , ppTitle = xmobarColor myFocusColor "" . shorten 80
-                        , ppSep =   "<fc=#3366ff> | </fc>"
+                        , ppSep =   "<fc=#434c5e> | </fc>"
                         }
             , modMask = myModMask
             , terminal = myTerminal

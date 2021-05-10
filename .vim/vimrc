@@ -12,7 +12,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " theme
-Plug 'mukiwu/vim-tomorrow-night'
+Plug 'arcticicestudio/nord-vim'
+"Plug 'mukiwu/vim-tomorrow-night'
 
 " Initialize plugin system
 call plug#end()
@@ -112,7 +113,8 @@ if &t_Co > 2 || has("gui_running")
    syntax on
 endif
 
-colorscheme Tomorrow-Night
+colorscheme nord
+"colorscheme Tomorrow-Night
 hi NonText ctermbg=none
 hi Normal guibg=NONE ctermbg=NONE
 

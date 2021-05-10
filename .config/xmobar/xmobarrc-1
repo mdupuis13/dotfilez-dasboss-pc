@@ -1,7 +1,7 @@
 Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=true:hinting=true"
        , alpha = 0 
-       , bgColor = "#1e1d1d"
-       , fgColor = "#0099ff"
+       , bgColor = "#2e3440"
+       , fgColor = "#81a1c1"
        , position = Top
        , iconRoot = "/home/mdupuis/.xmonad/xpm/"  -- default: "."
        , commands = [Run Com "/home/mdupuis/.config/xmobar/getdate_fr.py" [] "date" 5
@@ -10,5 +10,5 @@ Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=tru
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#0099ff>%date%</fc>"
+       , template = "%StdinReader% }{ <fc=#81a1c1>%date%</fc>"
        }

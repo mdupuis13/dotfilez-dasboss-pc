@@ -181,6 +181,8 @@ end
 
 ### END OF FUNCTIONS ###
 
+test -r "~/.dir_colors" && eval (dircolors ~/.dir_colors)
+
 
 ### ALIASES ###
 # spark aliases
