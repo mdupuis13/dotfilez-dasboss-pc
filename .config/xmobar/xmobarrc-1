@@ -1,0 +1,14 @@
+Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=true:hinting=true"
+       , alpha = 0 
+       , bgColor = "#1e1d1d"
+       , fgColor = "#0099ff"
+       , position = Top
+       , iconRoot = "/home/mdupuis/.xmonad/xpm/"  -- default: "."
+       , commands = [Run Com "/home/mdupuis/.config/xmobar/getdate_fr.py" [] "date" 5
+                      -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ <fc=#0099ff>%date%</fc>"
+       }

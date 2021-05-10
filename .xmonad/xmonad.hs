@@ -96,15 +96,17 @@ myStartupHook :: X ()
 myStartupHook = do
     -- Turn on/off system beep.
     spawnOnce "xset b off"
-
     -- Set keyboard settings - 250 ms delay and 25 cps (characters per second) repeat rate.
     -- Adjust the values according to your preferances.
     spawnOnce "xset r rate 250 25"
+    -- Change screen laytou to put second monitor on top of UWXGA
+    spawnOnce "$HOME/.screenlayout/md-default.layout.sh"
     spawnOnce "nitrogen --restore"
     -- Compton
-    spawnOnce "bl-compositor --start"
+    spawnOnce "compton &"
     -- Start the Conky session (the default conkyrc will run if no sessions have been set)
-    spawnOnce "bl-conky-session --autostart &"
+    -- spawnOnce "conky -c .config/conky/conky.conf --xinerama-head 0 &"
+    -- spawnOnce "conky -c .config/conky/md-top-conky.conf --xinerama-head 1 &"
     -- bind special keys (double-click on mouse 9 mainly)
     spawnOnce "xbindkeys_autostart"
     -- load the tray space
@@ -211,32 +213,32 @@ myKeys =
         [ ("M-C-r", spawn "xmonad --recompile")  -- Recompiles xmonad
         , ("M-S-r", spawn "xmonad --restart")    -- Restarts xmonad
         , ("M-S-q", io exitSuccess)              -- Quits xmonad
-        , ("M-S-l", spawn "bl-lock")               -- locks session 
+        , ("M-M1-l", spawn "light-locker-command -l")               -- locks session 
 
     -- Run Prompt
-        , ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
+        -- , ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
 
     -- Other Dmenu Prompts
     -- In Xmonad and many tiling window managers, M-p is the default keybinding to
     -- launch dmenu_run, so I've decided to use M-p plus KEY for these dmenu scripts.
-        , ("M-p a", spawn "dmsounds")  -- pick color from our scheme
-        , ("M-p c", spawn "dmcolors")  -- pick color from our scheme
-        , ("M-p e", spawn "dmconf")   -- edit config files
-        , ("M-p i", spawn "dmscrot")  -- screenshots (images)
-        , ("M-p k", spawn "dmkill")   -- kill processes
-        , ("M-p m", spawn "dman")     -- manpages
-        , ("M-p o", spawn "dmqute")   -- qutebrowser bookmarks/history
-        , ("M-p p", spawn "passmenu") -- passmenu
-        , ("M-p q", spawn "dmlogout") -- logout menu
-        , ("M-p r", spawn "dmred")    -- reddio (a reddit viewer)
-        , ("M-p s", spawn "dmsearch") -- search various search engines
+        -- , ("M-p a", spawn "dmsounds")  -- pick color from our scheme
+        -- , ("M-p c", spawn "dmcolors")  -- pick color from our scheme
+        -- , ("M-p e", spawn "dmconf")   -- edit config files
+        -- , ("M-p i", spawn "dmscrot")  -- screenshots (images)
+        -- , ("M-p k", spawn "dmkill")   -- kill processes
+        -- , ("M-p m", spawn "dman")     -- manpages
+        -- , ("M-p o", spawn "dmqute")   -- qutebrowser bookmarks/history
+        -- , ("M-p p", spawn "passmenu") -- passmenu
+        -- , ("M-p q", spawn "dmlogout") -- logout menu
+        -- , ("M-p r", spawn "dmred")    -- reddio (a reddit viewer)
+        -- , ("M-p s", spawn "dmsearch") -- search various search engines
 
     -- Useful programs to have a keybinding for launch
         , ("M-<Return>", spawn (myTerminal))
         , ("M-b", runOrRaise "firefox" (className =? "Firefox-esr"))
         , ("M-S-b", spawn (myBrowser ++ " about:blank"))
         , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
-        , ("M-S-e", spawn (myFileManager))
+        , ("M-M1-e", spawn (myFileManager))
 
     -- Kill windows
         , ("M-S-c", kill1)     -- Kill the currently focused client
@@ -310,18 +312,30 @@ myKeys =
         , ("<XF86Calculator>", runOrRaise "galculator" (resource =? "galculator"))
         , ("<XF86Tools>", runOrRaise "audacious" (resource =? "audacious"))
         , ("<Print>", spawn "dmscrot")
+        ] ++ -- (++) is needed here because the following list comprehension
+         -- is a list, not a single key binding. Simply adding it to the
+         -- list of key bindings would result in something like [ b1, b2,
+         -- [ b3, b4, b5 ] ] resulting in a type error. (Lists must
+         -- contain items all of the same type.)
+        [ (otherModMasks ++ "M-" ++ [key], action tag)
+        | (tag, key)  <- zip myWorkspaces "123456789"
+        , (otherModMasks, action) <- [ ("", windows . W.view) -- was W.greedyView
+                                        , ("S-", windows . W.shift)]
         ]
 
 main :: IO ()
 main = do
-    -- Launching one instance of xmobar on the monitor.
-    xmproc <- spawnPipe "xmobar"
+    -- Launching three instances of xmobar on their monitors.
+    xmproc0 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc-1"
+    xmproc1 <- spawnPipe "xmobar -x 2 $HOME/.config/xmobar/xmobarrc-2"
+
     -- the xmonad, ya know...what the WM is named after!
     xmonad $ ewmh def
             { manageHook         = insertPosition End Newer <+> myManageHook <+> manageDocks
             , handleEventHook    = docksEventHook
             , logHook = dynamicLogWithPP $ xmobarPP
-                        { ppOutput = hPutStrLn xmproc
+                        {ppOutput = \x -> hPutStrLn xmproc0 x                          -- xmobar on monitor 1
+                                       >> hPutStrLn xmproc1 x                          -- xmobar on monitor 2 
                         , ppCurrent = xmobarColor myLightColor "" . wrap "[" "]"
                         , ppVisible = xmobarColor myFocusColor ""               -- Visible but not current workspace
                         , ppHidden = xmobarColor myFocusColor "" . wrap "*" ""  -- Hidden workspaces

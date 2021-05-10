@@ -1,0 +1,24 @@
+Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:Font Awesome:pixelsize=16"
+                           ]
+       , alpha = 0
+       , bgColor = "#1e1d1d"
+       , fgColor = "#0099ff"
+       , position = TopW L 99
+       , iconRoot = "/home/mdupuis/.xmonad/xpm/"  -- default: "."
+       , commands = [ Run MultiCpu ["-t","<icon=cpu_20.xpm/> <fc=#99d6ff><autototal>%</fc>","-L","15","-H","50","--normal","green","--high","red"] 20
+                    , Run Memory ["-t","<icon=memory-icon_20.xpm/> <fc=#99d6ff><usedratio>%</fc>"] 20
+                    , Run DiskU [("/home", "<icon=harddisk-icon_20.xpm/><fc=#99d6ff><usedp>%</fc>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
+                    -- Network up and down
+                    , Run Network "enp3s0" ["-t", "<fn=1></fn><rx>kb <fn=1></fn><tx>kb"] 20
+                    -- , Run Network "enp3s0" ["-t", "<icon=net_up_20.xpm/><rx>kb <icon=net_down_20.xpm/><tx>kb"] 20
+                    , Run Volume "default" "Master" ["-t", "<icon=audio-speakers-symbolic-20.xpm/> <volume>%"] 10
+                    , Run Com "/home/mdupuis/.config/xmobar/getdate_fr.py" [] "date" 5
+                      -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
+                    , Run Com "/home/mdupuis/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ %multicpu% | %memory% | %disku% | %enp3s0% | %default:Master%    <fc=#0099ff>%date%</fc>%trayerpad%"
+       }
