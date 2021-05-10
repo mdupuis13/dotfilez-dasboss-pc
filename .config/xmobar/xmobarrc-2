@@ -3,10 +3,10 @@ Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=tru
                            ]
        , alpha = 0
        , bgColor = "#2e3440"
-       , fgColor = "#434c5e"
+       , fgColor = "#81a1c1"
        , position = TopW L 99
        , iconRoot = "/home/mdupuis/.xmonad/xpm/"  -- default: "."
-       , commands = [ Run MultiCpu ["-t","<fn=1></fn> <fc=#81a1c1><autototal>%</fc>","-L","15","-H","50","--normal","green","--high","red"] 20
+       , commands = [ Run MultiCpu ["-t","<fn=1></fn> <fc=#81a1c1><autototal>%</fc>","-L","15","-H","50","--normal","#a3be8c","--high","#bf616a"] 20
                     , Run Memory ["-t","<fn=1></fn> <fc=#81a1c1><usedratio>%</fc>"] 20
                     , Run DiskU [("/home", "<fn=1></fn><fc=#81a1c1><usedp>%</fc>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
                     -- Network up and down

@@ -84,7 +84,8 @@ myFocusColor :: String
 myFocusColor  = "#81a1c1"   -- Border color of focused windows
 
 myLightColor :: String
-myLightColor  = "#81a1c1"   -- Border color of focused windows
+myLightColor  = "#a3be8c"   -- Border color of active workspace 
+--myLightColor  = "#81a1c1"   -- Border color of focused windows
 
 myHiddenColor :: String
 myHiddenColor  = "#6e6d6d"   -- Border color of focused windows
@@ -100,7 +101,7 @@ myStartupHook = do
     -- Adjust the values according to your preferances.
     spawnOnce "xset r rate 250 25"
     -- Change screen laytou to put second monitor on top of UWXGA
-    spawnOnce "$HOME/.screenlayout/md-default.layout.sh"
+    spawnOnce "$HOME/.screenlayout/md-default.layout.sh && sleep 1"
     spawnOnce "nitrogen --restore"
     -- Compton
     spawnOnce "compton &"
@@ -110,7 +111,7 @@ myStartupHook = do
     -- bind special keys (double-click on mouse 9 mainly)
     spawnOnce "xbindkeys_autostart"
     -- load the tray space
-    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --iconspacing 2 --transparent true --alpha 150 --tint 0x1e1d1d  --height 24 &"
+    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --iconspacing 2 --transparent true --alpha 250 --tint 0x2e3440  --height 24 &"
     -- Volume control for systray
     --spawnOnce "pnmixer &"
     -- Start Clipboard manager
@@ -217,7 +218,7 @@ myKeys =
 
     -- Run Prompt
         -- , ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
-        , ("M-p", spawn "dmenu_run -i -nb '#2E3440' -nf '#81a1c1' -sb '#3b4252' -sf '#81a1c1'") -- Dmenu
+        , ("M-p", spawn "dmenu_run -i -nb '#2E3440' -nf '#81a1c1' -sb '#5e81ac' -sf '#2E3440'") -- Dmenu
 
     -- Other Dmenu Prompts
     -- In Xmonad and many tiling window managers, M-p is the default keybinding to
@@ -341,9 +342,9 @@ main = do
                         , ppVisible = xmobarColor myFocusColor ""               -- Visible but not current workspace
                         , ppHidden = xmobarColor myFocusColor "" . wrap "*" ""  -- Hidden workspaces
                         , ppHiddenNoWindows = xmobarColor myHiddenColor ""       -- Hidden workspaces (no windows)
-                        , ppLayout = xmobarColor myLightColor ""
+                        , ppLayout = xmobarColor myFocusColor ""
                         , ppTitle = xmobarColor myFocusColor "" . shorten 80
-                        , ppSep =   "<fc=#434c5e> | </fc>"
+                        , ppSep =   "<fc=#5e81ac> | </fc>"
                         }
             , modMask = myModMask
             , terminal = myTerminal
