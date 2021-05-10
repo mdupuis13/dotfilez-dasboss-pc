@@ -101,10 +101,11 @@ myStartupHook = do
     -- Adjust the values according to your preferances.
     spawnOnce "xset r rate 250 25"
     -- Change screen laytou to put second monitor on top of UWXGA
-    spawnOnce "$HOME/.screenlayout/md-default.layout.sh && sleep 1"
-    spawnOnce "nitrogen --restore"
+    -- spawnOnce "$HOME/.screenlayout/md-default.layout.sh && sleep 1"
     -- Compton
     spawnOnce "compton &"
+    -- GNOME PolicyKit authentication
+    spawnOnce "/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &"
     -- Start the Conky session (the default conkyrc will run if no sessions have been set)
     -- spawnOnce "conky -c .config/conky/conky.conf --xinerama-head 0 &"
     -- spawnOnce "conky -c .config/conky/md-top-conky.conf --xinerama-head 1 &"
@@ -119,6 +120,8 @@ myStartupHook = do
     -- Run the XDG autostart stuff. This requires python3-xdg to be installed.
     -- See bl-xdg-autostart --list for list of autostarted applications.
     spawnOnce "bl-xdg-autostart"
+    -- set default wallpaper
+    spawnOnce "nitrogen --restore"
     
 --Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
@@ -314,16 +317,16 @@ myKeys =
         , ("<XF86Calculator>", runOrRaise "galculator" (resource =? "galculator"))
         , ("<XF86Tools>", runOrRaise "audacious" (resource =? "audacious"))
         , ("<Print>", spawn "dmscrot")
-        ] ++ -- (++) is needed here because the following list comprehension
+        ] -- ++ -- (++) is needed here because the following list comprehension
          -- is a list, not a single key binding. Simply adding it to the
          -- list of key bindings would result in something like [ b1, b2,
          -- [ b3, b4, b5 ] ] resulting in a type error. (Lists must
          -- contain items all of the same type.)
-        [ (otherModMasks ++ "M-" ++ [key], action tag)
-        | (tag, key)  <- zip myWorkspaces "123456789"
-        , (otherModMasks, action) <- [ ("", windows . W.view) -- was W.greedyView
-                                        , ("S-", windows . W.shift)]
-        ]
+        -- ~[ (otherModMasks ++ "M-" ++ [key], action tag)
+        -- ~| (tag, key)  <- zip myWorkspaces "123456789"
+        -- ~, (otherModMasks, action) <- [ ("", windows . W.view) -- was W.greedyView
+                                        -- ~, ("S-", windows . W.shift)]
+        -- ~]
 
 main :: IO ()
 main = do
