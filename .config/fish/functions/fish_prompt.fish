@@ -6,17 +6,17 @@ set -g __dmorrell_prompt_icon_prompt  "\$"
 set -g __dmorrell_prompt_icon_root    "!"
 
 # Colors
-set -g __dmorrell_prompt_color_fail    "brred"
-set -g __dmorrell_prompt_color_success "green"
+set -g __dmorrell_prompt_color_fail    "bf616a"
+set -g __dmorrell_prompt_color_success "a3be8c"
 
 set -g __dmorrell_prompt_color_ssh_bg  "blue"
-set -g __dmorrell_prompt_color_ssh_fg  "white"
+set -g __dmorrell_prompt_color_ssh_fg  "d8dee9"
 
-set -g __dmorrell_prompt_color_user "yellow"
-set -g __dmorrell_prompt_color_host "green"
-set -g __dmorrell_prompt_color_path "yellow"
+set -g __dmorrell_prompt_color_user "88c0d0"
+set -g __dmorrell_prompt_color_host "81a1c1"
+set -g __dmorrell_prompt_color_path "81a1c1"
 
-set -g __dmorrell_prompt_color_prompt  "717f24"
+set -g __dmorrell_prompt_color_prompt  "5e81ac"
 
 ## Function to show a segment
 function __dmorrell_prompt_segment -d "Function to show a segment"

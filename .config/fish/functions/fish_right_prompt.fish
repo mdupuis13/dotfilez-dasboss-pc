@@ -16,15 +16,15 @@ set -g __dmorrell_git_icon_behind   '⭳'
 
 # Colors
 # cf. http://fishshell.com/docs/current/commands.html#set_color
-set -g __dmorrell_git_color_normal  "555"
-set -g __dmorrell_git_color_new     "0a0"
-set -g __dmorrell_git_color_changed "ddc203"
-set -g __dmorrell_git_color_removed "a00"
-set -g __dmorrell_git_color_stashed "fff"
+set -g __dmorrell_git_color_normal  "8fbcbb"
+set -g __dmorrell_git_color_new     "a3be8c"
+set -g __dmorrell_git_color_changed "d08770"
+set -g __dmorrell_git_color_removed "bf616a"
+set -g __dmorrell_git_color_stashed "8fbcbb"
 
-set -g __dmorrell_git_color_rev_bg      "555"
-set -g __dmorrell_git_color_rev_fg      "fff"
-set -g __dmorrell_git_color_rev_fg_warn "brred"
+set -g __dmorrell_git_color_rev_bg      "2e3440"
+set -g __dmorrell_git_color_rev_fg      "d8dee9"
+set -g __dmorrell_git_color_rev_fg_warn "bf616a"
 
 
 function __dmorrell_print_git_branch_state
