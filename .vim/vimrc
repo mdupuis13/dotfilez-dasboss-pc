@@ -2,23 +2,6 @@
 set nocompatible
 set modelines=0
 
-call plug#begin('~/.vim/plugged')
-" Make sure you use single quotes
-"
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-Plug 'junegunn/vim-easy-align'
-
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-
-" theme
-Plug 'arcticicestudio/nord-vim'
-"Plug 'mukiwu/vim-tomorrow-night'
-
-" Initialize plugin system
-call plug#end()
-
-
 " set file encoding to UTF-8
 set encoding=utf-8
 set fileencoding=utf-8
@@ -26,17 +9,22 @@ set fileencoding=utf-8
 " change the mapleader from \ to ,
 let mapleader=","
 
-"if exists('+colorcolumn')
-"    set colorcolumn=80
-"else
-"    hi OverLength ctermbg=7 ctermfg=white guibg=#FFD9D9
-"    match OverLength '\%>80v.\+'
-"endif
+" change colorscheme if supported
+if &t_Co >= 256 || has("gui_running")
+   colorscheme matrix
+endif
+
+if exists('+colorcolumn')
+    set colorcolumn=80
+else
+    hi OverLength ctermbg=7 ctermfg=white guibg=#FFD9D9
+    match OverLength '\%>80v.\+'
+endif
 
 " change font if supported
 if has("gui_running")
 
-"  set lines=34 columns=134
+  set lines=34 columns=134
   
     if exists('+colorcolumn')
         set colorcolumn=125
@@ -45,6 +33,18 @@ if has("gui_running")
         match OverLength '\%>132v.\+'
     endif
 
+    if has('win32') || has('win64')
+        set lines=35 columns=150
+        colorscheme evening_mdupuis
+        let $MYVIMRC="C:\\Travail\\Apps\\Vim\\vimrc"
+    endif
+
+  "
+    if has("gui_gtk2")
+        set guifont=Inconsolata\ 12
+    elseif has("gui_win32") || has('win64')
+        set guifont=Consolas:h11:cANSI
+    endif
 endif
 
 " Quickly edit/reload the vimrc file
@@ -52,7 +52,7 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nmap <leader>l :set list!<CR>
 " clearing highlighted searches
-nmap <silent> <leader>. :nohlsearch<CR>
+nmap <silent> ,. :nohlsearch<CR>
 
 " CTRL-F2 removes/shows Commandbar and menubar
 map <silent> <C-F2> :if &guioptions =~# 'T' <Bar>
@@ -92,9 +92,6 @@ set incsearch     " show search matches as you type
 
 set history=1000         " remember more commands and search history
 set undolevels=1000      " use many muchos levels of undo
-if !has('nvim')
-  set ttymouse=sgr
-endif
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
 set visualbell           " don't beep
@@ -113,11 +110,6 @@ if &t_Co > 2 || has("gui_running")
    syntax on
 endif
 
-colorscheme nord
-"colorscheme Tomorrow-Night
-hi NonText ctermbg=none
-hi Normal guibg=NONE ctermbg=NONE
-
 " show whitespaces
 set nolist
 set listchars=tab:▸\ ,eol:¬,trail:.,extends:#,nbsp:.
@@ -127,9 +119,6 @@ highlight NonText guifg=grey40
 highlight SpecialKey guifg=grey40
 
 nnoremap <F5> :buffers<CR>:buffer<Space>
-
-" Toggle relative line numbers and regular line numbers.
-nmap <F6> :set invrelativenumber<CR>
 
 " remap CTRL-hjkl to move between windows
 nnoremap <C-h> <C-w>h
@@ -143,14 +132,14 @@ inoremap <C-k> <C-w>k
 inoremap <C-l> <C-w>l
 
 " disable arrow keys in insert and normal modes
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
+"nnoremap <up> <nop>
+"nnoremap <down> <nop>
+"nnoremap <left> <nop>
+"nnoremap <right> <nop>
+"inoremap <up> <nop>
+"inoremap <down> <nop>
+"inoremap <left> <nop>
+"inoremap <right> <nop>
 
 set laststatus=2
 set statusline=                           " resets the status line
