@@ -1,270 +1,201 @@
-# this theme inspired from dmorrell
-# "Icons"
-set -g __md_prompt_icon_fail    "⌁"
-set -g __md_prompt_icon_success "—"
-set -g __md_prompt_icon_ssh     " SSH: "
-set -g __md_prompt_icon_prompt  "\$"
-set -g __md_prompt_icon_root    "!"
+# ADDING TO THE PATH
+# First line removes the path; second line sets it.  Without the first line,
+# your path gets massive and fish becomes very slow.
+set -e fish_user_paths
+set -U fish_user_paths $HOME/go/bin $HOME/bin $HOME/.local/bin $fish_user_paths
+set fish_prompt_pwd_dir_length 1
 
-# Colors
-set -g __md_prompt_color_fail    "bf616a"
-set -g __md_prompt_color_success "a3be8c"
+### EXPORT ###
+set fish_greeting                                 # Supresses fish's intro message
+set TERM "xterm-256color"                         # Sets the terminal type
+set -gx EDITOR vim
+set -gx VISUAL "geany"
 
-set -g __md_prompt_color_ssh_bg  "blue"
-set -g __md_prompt_color_ssh_fg  "d8dee9"
+### SET MANPAGER
+### Uncomment only one of these!
 
-set -g __md_prompt_color_user "88c0d0"
-set -g __md_prompt_color_host "81a1c1"
-set -g __md_prompt_color_path "81a1c1"
+### "bat" as manpager
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
-set -g __md_prompt_color_prompt  "5e81ac"
+### "vim" as manpager
+# set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
 
-## Function to show a segment
-function __md_prompt_segment -d "Function to show a segment"
-  # Get colors
-  set -l bg $argv[1]
-  set -l fg $argv[2]
-
-  # Set 'em
-  set_color -b $bg
-  set_color $fg
-
-  # Print text
-  if [ -n "$argv[3]" ]
-    echo -n -s $argv[3]
-  end
+### SET EITHER DEFAULT EMACS MODE OR VI MODE ###
+function fish_user_key_bindings
+  # fish_default_key_bindings
+  fish_vi_key_bindings
 end
+### END OF VI MODE ###
 
-## Function to show current status
-function __md_show_status -d "Function to show the current status"
-  if [ $RETVAL -ne 0 ]
-    __md_prompt_segment \
-      normal \
-      $__md_prompt_color_fail \
-      $__md_prompt_icon_fail
-  else
-    __md_prompt_segment \
-      normal \
-      $__md_prompt_color_success \
-      $__md_prompt_icon_success
-  end
-  if [ -n "$SSH_CLIENT" ]
-      __md_prompt_segment \
-        $__md_prompt_color_ssh_bg \
-        $__md_prompt_color_ssh_fg \
-        $__md_prompt_icon_ssh
+### AUTOCOMPLETE AND HIGHLIGHT COLORS ###
+set fish_color_normal '#5e81ac'
+set fish_color_autosuggestion '#81a1c1'
+set fish_color_command '#5e81ac'
+set fish_color_error '#bf616a'
+set fish_color_param '#88c0d0'
+
+### SPARK ###
+set -g spark_version 1.0.0
+
+complete -xc spark -n __fish_use_subcommand -a --help -d "Show usage help"
+complete -xc spark -n __fish_use_subcommand -a --version -d "$spark_version"
+complete -xc spark -n __fish_use_subcommand -a --min -d "Minimum range value"
+complete -xc spark -n __fish_use_subcommand -a --max -d "Maximum range value"
+
+function spark -d "sparkline generator"
+    if isatty
+        switch "$argv"
+            case {,-}-v{ersion,}
+                echo "spark version $spark_version"
+            case {,-}-h{elp,}
+                echo "usage: spark [--min=<n> --max=<n>] <numbers...>  Draw sparklines"
+                echo "examples:"
+                echo "       spark 1 2 3 4"
+                echo "       seq 100 | sort -R | spark"
+                echo "       awk \\\$0=length spark.fish | spark"
+            case \*
+                echo $argv | spark $argv
+        end
+        return
     end
+
+    command awk -v FS="[[:space:],]*" -v argv="$argv" '
+        BEGIN {
+            min = match(argv, /--min=[0-9]+/) ? substr(argv, RSTART + 6, RLENGTH - 6) + 0 : ""
+            max = match(argv, /--max=[0-9]+/) ? substr(argv, RSTART + 6, RLENGTH - 6) + 0 : ""
+        }
+        {
+            for (i = j = 1; i <= NF; i++) {
+                if ($i ~ /^--/) continue
+                if ($i !~ /^-?[0-9]/) data[count + j++] = ""
+                else {
+                    v = data[count + j++] = int($i)
+                    if (max == "" && min == "") max = min = v
+                    if (max < v) max = v
+                    if (min > v ) min = v
+                }
+            }
+            count += j - 1
+        }
+        END {
+            n = split(min == max && max ? "▅ ▅" : "▁ ▂ ▃ ▄ ▅ ▆ ▇ █", blocks, " ")
+            scale = (scale = int(256 * (max - min) / (n - 1))) ? scale : 1
+            for (i = 1; i <= count; i++)
+                out = out (data[i] == "" ? " " : blocks[idx = int(256 * (data[i] - min) / scale) + 1])
+            print out
+        }
+    '
+end
+### END OF SPARK ###
+
+
+### FUNCTIONS ###
+# Spark functions
+function letters
+    cat $argv | awk -vFS='' '{for(i=1;i<=NF;i++){ if($i~/[a-zA-Z]/) { w[tolower($i)]++} } }END{for(i in w) print i,w[i]}' | sort | cut -c 3- | spark | lolcat
+    printf  '%s\n' 'abcdefghijklmnopqrstuvwxyz'  ' ' | lolcat
 end
 
-function __md_show_virtualenv -d "Show active python virtual environments"
-  if set -q VIRTUAL_ENV
-    set -l venvname (basename "$VIRTUAL_ENV")
-    __md_prompt_segment normal white " ($venvname) "
+function commits
+    git log --author="$argv" --format=format:%ad --date=short | uniq -c | awk '{print $1}' | spark | lolcat
+end
+
+# Functions needed for !! and !$
+function __history_previous_command
+  switch (commandline -t)
+  case "!"
+    commandline -t $history[1]; commandline -f repaint
+  case "*"
+    commandline -i !
   end
 end
 
-## Show user if not in default users
-function __md_show_user -d "Show user"
-  if not contains $USER $default_user; or test -n "$SSH_CLIENT"
-    set -l host (hostname -s)
-    set -l who (whoami)
-   __md_prompt_segment normal $__md_prompt_color_user " $who"
-
-    # Skip @ bit if hostname == username
-    if [ "$USER" != "$HOST" ]
-      __md_prompt_segment normal white "@"
-      __md_prompt_segment normal $__md_prompt_color_host "$host "
-    end
-  else
-    __md_prompt_segment normal normal " "
+function __history_previous_command_arguments
+  switch (commandline -t)
+  case "!"
+    commandline -t ""
+    commandline -f history-token-search-backward
+  case "*"
+    commandline -i '$'
   end
 end
-
-function __md_set_venv_project --on-variable VIRTUAL_ENV
-    if test -e $VIRTUAL_ENV/.project
-        set -g VIRTUAL_ENV_PROJECT (cat $VIRTUAL_ENV/.project)
-    end
+# The bindings for !! and !$
+if [ $fish_key_bindings = fish_vi_key_bindings ];
+  bind -Minsert ! __history_previous_command
+  bind -Minsert '$' __history_previous_command_arguments
+else
+  bind ! __history_previous_command
+  bind '$' __history_previous_command_arguments
 end
 
-# Show directory
-function __md_show_pwd -d "Show the current directory"
-  set -l pwd
-  if [ (string match -r '^'"$VIRTUAL_ENV_PROJECT" $PWD) ]
-    set pwd (string replace -r '^'"$VIRTUAL_ENV_PROJECT"'($|/)' '≫ $1' $PWD)
-  else
-    set pwd (prompt_pwd)
-  end
-  __md_prompt_segment normal $__md_prompt_color_path "$pwd"
+# Function for creating a backup file
+# ex: backup file.txt
+# result: copies file as file.txt.bak
+function backup --argument filename
+    cp $filename $filename.bak
 end
 
-# Show prompt w/ privilege cue
-function __md_show_prompt -d "Shows prompt with cue for current priv"
-  set -l uid (id -u $USER)
-  
-  if [ $uid -eq 0 ] # This is root!
-    __md_prompt_segment \
-      red \
-      $__md_prompt_color_prompt \
-      " $__md_prompt_icon_root "
-    set_color normal
-    echo -n -s " "
-  else
-    __md_prompt_segment \
-      normal \
-      $__md_prompt_color_prompt \
-      " $__md_prompt_icon_prompt "
-  end
-
-  set_color normal
-end
-
-### BEGIN git prompt
-# "Icons" 
-# taking some hints from stefanmaric/bigfish
-# additional spaces to work around not-really-monospace glyphs
-set -g __md_git_icon_new     "⚹ "
-set -g __md_git_icon_changed "↺ "
-set -g __md_git_icon_removed "🗴"
-set -g __md_git_icon_stashed "≡ "
-
-set -g __md_git_icon_branch   '🜉'
-set -g __md_git_icon_tag      '⌂'
-set -g __md_git_icon_commit   '⌀'
-
-set -g __md_git_icon_diverged '⭿'
-set -g __md_git_icon_ahead    '⭱'
-set -g __md_git_icon_behind   '⭳'
-
-# Colors
-# cf. http://fishshell.com/docs/current/commands.html#set_color
-set -g __md_git_color_normal  "8fbcbb"
-set -g __md_git_color_new     "a3be8c"
-set -g __md_git_color_changed "d08770"
-set -g __md_git_color_removed "bf616a"
-set -g __md_git_color_stashed "8fbcbb"
-
-set -g __md_git_color_rev_bg      "2e3440"
-set -g __md_git_color_rev_fg      "d8dee9"
-set -g __md_git_color_rev_fg_warn "bf616a"
-
-
-function __md_print_git_branch_state
-    set upstream_state (command git rev-list --count --left-right "@{upstream}...HEAD" ^ /dev/null)
-    if [ $status = 0 ]
-      echo -n "$upstream_state" | command awk "
-          /0\t0/          { exit 0 }
-          /[0-9]+\t0/     { print \"$__md_git_icon_behind \";   exit 0 }
-          /0\t[0-9]+/     { print \"$__md_git_icon_ahead \";    exit 0 }
-          //              { print \"$__md_git_icon_diverged \"; exit 0 }
-      "
+# Function for copying files and directories, even recursively.
+# ex: copy DIRNAME LOCATIONS
+# result: copies the directory and all of its contents.
+function copy
+    set count (count $argv | tr -d \n)
+    if test "$count" = 2; and test -d "$argv[1]"
+	set from (echo $argv[1] | trim-right /)
+	set to (echo $argv[2])
+        command cp -r $from $to
     else
-      # no upstream branch configured
-      echo -n "$__md_git_icon_new "
+        command cp $argv
     end
 end
 
-
-function __md_print_git_revlabel
-  # Is it a branch?
-  set rev (command git symbolic-ref --short HEAD 2> /dev/null)
-  if [ $status = 0 ]
-    set state (__md_print_git_branch_state)
-    echo -n " $__md_git_icon_branch $rev $state"
-    return 0
-  end
-  # No!
-
-  # Is it a tag?
-  set rev (command git describe --tags --exact-match ^/dev/null)
-  if [ $status = 0 ]
-    echo -n " $__md_git_icon_tag $rev "
-    return 0
-  end
-  # No!
-
-  # Is it just a generic commit?
-  set rev (command git rev-parse --short HEAD 2> /dev/null)
-  if [ $status = 0 ]
-    echo -n " $__md_git_icon_commit $rev "
-    return 0
-  end
-  # No!
-
-  # What is it? ... Not Git.
-  return 1
+# Function for printing a column (splits input on whitespace)
+# ex: echo 1 2 3 | coln 3
+# output: 3
+function coln
+    while read -l input
+        echo $input | awk '{print $'$argv[1]'}'
+    end
 end
 
-
-function __md_print_git_status -d "Gets the current git status"
-  if command git rev-parse --is-inside-work-tree >/dev/null 2>&1
-    set -l new (command git status --porcelain=v1 --ignore-submodules=dirty \
-                | grep -e '^ \?A' | wc -l)
-    set -l mod (command git status --porcelain=v1 --ignore-submodules=dirty \
-                | grep -e '^ \?\(M\|R\)' | wc -l)
-    set -l del (command git status --porcelain=v1 --ignore-submodules=dirty \
-                | grep -e '^ \?D' | wc -l)
-    set -l stashed (command git stash list --no-decorate \
-                | wc -l)
-
-    # set -g fish_emoji_width 1
-
-    set_color -b normal
-
-    # Show the number of new files
-    set_color $__md_git_color_normal
-    if [ "$new" != "0" ]
-      set_color $__md_git_color_new
-    end
-    echo -n "$new$__md_git_icon_new "
-
-    # Show the number of modified files
-    set_color $__md_git_color_normal
-    if [ "$mod" != "0" ]
-      set_color $__md_git_color_changed
-    end
-    echo -n "$mod$__md_git_icon_changed "
-
-    # Show the number of removed files
-    set_color $__md_git_color_normal
-    if [ "$del" != "0" ]
-      set_color $__md_git_color_removed
-    end
-    echo -n "$del$__md_git_icon_removed "
-
-    # Show the number of stashes
-    set_color $__md_git_color_normal
-    if [ "$stashed" != "0" ]
-      set_color $__md_git_color_stashed
-    end
-    echo -n "$stashed$__md_git_icon_stashed "
-
-    # Show the current revision, with bells and whistles
-    set_color -b $__md_git_color_rev_bg
-    if begin     test -f (git rev-parse --git-dir)/MERGE_HEAD;
-             or  test -d (git rev-parse --git-path rebase-merge);
-             or  test -d (git rev-parse --git-path rebase-apply)
-             # cf. https://stackoverflow.com/a/3921928/539599
-       end
-       # Indicate that "something" is afoot
-       set_color $__md_git_color_rev_fg_warn
-    else
-      set_color $__md_git_color_rev_fg
-    end
-    __md_print_git_revlabel
-    set_color normal
-   end
+# Function for printing a row
+# ex: seq 3 | rown 3
+# output: 3
+function rown --argument index
+    sed -n "$index p"
 end
-### END git prompt
 
-## SHOW PROMPT
-function fish_prompt
-  set -g RETVAL $status
-  __md_show_status
-  __md_show_virtualenv
-  __md_show_user
-  __md_show_pwd 
-  echo -n -e "\t"
-  __md_print_git_status
-  echo
-  __md_show_prompt
+# Function for ignoring the first 'n' lines
+# ex: seq 10 | skip 5
+# results: prints everything but the first 5 lines
+function skip --argument n
+    tail +(math 1 + $n)
 end
+
+# Function for taking the first 'n' lines
+# ex: seq 10 | take 5
+# results: prints only the first 5 lines
+function take --argument number
+    head -$number
+end
+
+### END OF FUNCTIONS ###
+
+# Base16 Shell
+if status --is-interactive
+    set BASE16_SHELL "$HOME/.config/base16-shell/"
+    source "$BASE16_SHELL/profile_helper.fish"
+end
+base16-nord-md
+
+# dircolors
+test -r "~/.dir_colors" && eval (dircolors ~/.dir_colors)
+
+
+### ALIASES ###
+source $HOME/.config/fish/conf.d/fish_aliases.fish
+
+### RANDOM COLOR SCRIPT ###
+# Get this script from my GitLab: gitlab.com/dwt1/shell-color-scripts
+colorscript random
+
