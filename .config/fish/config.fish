@@ -5,6 +5,9 @@ set -e fish_user_paths
 set -U fish_user_paths $HOME/go/bin $HOME/bin $HOME/.local/bin $fish_user_paths
 set fish_prompt_pwd_dir_length 1
 
+# set yourself as the default user
+set -g default_user mdupuis
+
 ### EXPORT ###
 set fish_greeting                                 # Supresses fish's intro message
 set TERM "xterm-256color"                         # Sets the terminal type
