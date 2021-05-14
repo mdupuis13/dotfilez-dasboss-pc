@@ -174,7 +174,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  ||| floats
 
 -- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 "]
-myWorkspaces = ["dev", "www", "comm", "sys", "vbox", "media", "gfx"]
+myWorkspaces = ["main", "www", "dev", "comm", "sys", "vbox", "media", "gfx"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
@@ -201,11 +201,11 @@ myManageHook = (isDialog --> doF W.swapUp) <+> composeAll
      , className =? "Brave-browser"   --> doShift ( myWorkspaces !! 1 )
      , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
      , className =? "Google Hangouts – mdupuis13@gmail.com"     --> doShift ( myWorkspaces !! 2)
-     , className =? "mpv"             --> doShift ( myWorkspaces !! 5 )
-     , className =? "Audacious"       --> doShift ( myWorkspaces !! 5 )
-     , className =? "vlc"             --> doShift ( myWorkspaces !! 5 )
-     , className =? "Gimp"            --> doShift ( myWorkspaces !! 6 )
-     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 4 )
+     , className =? "mpv"             --> doShift ( myWorkspaces !! 6 )
+     , className =? "Audacious"       --> doShift ( myWorkspaces !! 6 )
+     , className =? "vlc"             --> doShift ( myWorkspaces !! 6 )
+     , className =? "Gimp"            --> doShift ( myWorkspaces !! 7 )
+     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 5 )
      , (className =? "firefox" <&&> resource =? "Dialog") --> doCenterFloat  -- Float Firefox Dialog
      , isFullscreen -->  doFullFloat
      , isDialog --> doCenterFloat
