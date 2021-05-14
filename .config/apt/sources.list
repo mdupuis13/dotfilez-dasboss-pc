@@ -1,0 +1,22 @@
+
+
+# deb https://deb.debian.org/debian/ buster main contrib non-free 
+#deb http://debian.mirror.iweb.ca/debian/ sid main non-free contrib 
+deb https://mirror.csclub.uwaterloo.ca/debian/ sid main non-free contrib 
+# deb-src https://deb.debian.org/debian/ buster main contrib non-free 
+
+## Debian security updates
+# deb https://deb.debian.org/debian-security/ buster/updates main contrib non-free 
+
+# buster-updates, previously known as 'volatile'
+# deb https://deb.debian.org/debian/ buster-updates main contrib non-free 
+# deb-src https://deb.debian.org/debian/ buster-updates main contrib non-free 
+
+# This system was installed using small removable media
+# (e.g. netinst, live or single CD). The matching "deb cdrom"
+# entries were disabled at the end of the installation process.
+# For information about how to configure apt package sources,
+# see the sources.list(5) manual.
+
+
+

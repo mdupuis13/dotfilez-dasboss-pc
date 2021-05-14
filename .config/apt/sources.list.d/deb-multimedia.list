@@ -1,0 +1,4 @@
+deb http://mirror.csclub.uwaterloo.ca/debian-multimedia/ sid non-free main 
+# deb-src http://mirror.its.dal.ca/debian-multimedia/ stable main non-free 
+
+
