@@ -59,6 +59,10 @@ alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 alias merge='xrdb -merge ~/.Xresources'
 
 # git
+function git_current_branch -d "Function to show the current branch name"
+    git branch ^/dev/null | grep \* | cut -c 3-
+end
+
 alias ga='git add'
 alias gaa='git add --all'
 
