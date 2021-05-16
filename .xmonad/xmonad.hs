@@ -59,7 +59,7 @@ import XMonad.Util.SpawnOnce
 
 -- my custom local variables
 myFont :: String
-myFont = "xft:Sauce Code Pro Nerd Font Mono:regular:size=10:antialias=true:hinting=true"
+myFont = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=true:hinting=true"
 
 myModMask :: KeyMask
 myModMask = mod4Mask        -- Sets modkey to super/windows key
@@ -347,7 +347,7 @@ main = do
                         , ppHiddenNoWindows = xmobarColor myHiddenColor ""       -- Hidden workspaces (no windows)
                         , ppLayout = xmobarColor myFocusColor ""
                         , ppTitle = xmobarColor myFocusColor "" . shorten 80
-                        , ppSep =   "<fc=#5e81ac> | </fc>"
+                        , ppSep =   "<fc=#5e81ac> ┃ </fc>"
                         }
             , modMask = myModMask
             , terminal = myTerminal

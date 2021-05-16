@@ -3,7 +3,7 @@
 set -g __md_prompt_icon_fail    "⌁"
 set -g __md_prompt_icon_success "—"
 set -g __md_prompt_icon_ssh     " SSH: "
-set -g __md_prompt_icon_prompt  "\$"
+set -g __md_prompt_icon_prompt  ""
 set -g __md_prompt_icon_root    "!"
 
 # Colors
@@ -112,7 +112,7 @@ function __md_show_prompt -d "Shows prompt with cue for current priv"
     __md_prompt_segment \
       normal \
       $__md_prompt_color_prompt \
-      " $__md_prompt_icon_prompt "
+      "$__md_prompt_icon_prompt "
   end
 
   set_color normal

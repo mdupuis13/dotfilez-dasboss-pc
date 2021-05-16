@@ -1,5 +1,5 @@
 # spark aliases
-alias clear='/usr/bin/clear; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo'
+alias cls='/usr/bin/clear; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo'
 
 # root privileges
 alias doas="doas --"
@@ -18,11 +18,11 @@ alias .5='cd ../../../../..'
 alias cat='bat'
 
 # Changing "ls"
-alias ls='ls --color=always'
-alias l='ls -l --color=always --group-directories-first' # my preferred listing
-alias la='ls -Al --color=always --group-directories-first'  # all files and dirs
-alias lt='ls -aT --color=always --group-directories-first' # tree listing
-alias l.='ls -a | egrep "^\."'
+alias ls='exa --color=always'
+alias l='exa -l --color=always --group-directories-first' # my preferred listing
+alias la='exa -al --color=always --group-directories-first'  # all files and dirs
+alias lt='exa -aT --level=2 --color=always --group-directories-first' # tree listing
+alias l.='exa -a | egrep "^\."'
 
 # config
 # The best way to store your dotfiles: A bare Git repository

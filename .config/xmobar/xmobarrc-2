@@ -1,14 +1,14 @@
-Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=true:hinting=true"
+Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=14:antialias=true:hinting=true"
        , additionalFonts = [ "xft:Font Awesome 5 Free Solid:style=Solid:pixelsize=16"
                            ]
        , alpha = 0
        , bgColor = "#2e3440"
-       , fgColor = "#81a1c1"
-       , position = TopW L 99
+       , fgColor = "#5e81ac"
+       , position = TopW L 100
        , iconRoot = "/home/mdupuis/.xmonad/xpm/"  -- default: "."
-       , commands = [ Run MultiCpu ["-t","<fn=1></fn> <fc=#81a1c1><autototal>%</fc>","-L","15","-H","50","--normal","#a3be8c","--high","#bf616a"] 20
+       , commands = [ Run MultiCpu ["-t","<fn=1></fn> <fc=#81a1c1><autototal></fc>","-L","15","-H","50","--normal","#a3be8c","--high","#bf616a"] 20
                     , Run Memory ["-t","<fn=1></fn> <fc=#81a1c1><usedratio>%</fc>"] 20
-                    , Run DiskU [("/home", "<fn=1></fn><fc=#81a1c1><usedp>%</fc>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
+                    , Run DiskU [("/home", "<fn=1></fn><fc=#81a1c1><usedp>%/<size></fc>"), ("/home/mdupuis/Music", "<fn=1></fn><fc=#81a1c1><usedp>%/<size></fc>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
                     -- Network up and down
                     , Run Network "enp3s0" ["-t", "<fn=1></fn> <fc=#81a1c1><rx>kb</fc> <fn=1></fn> <fc=#81a1c1><tx>kb</fc>"] 20
                     , Run Volume "default" "Master" ["-t", "<fn=1></fn> <fc=#81a1c1><volume>%</fc>"] 10 
@@ -19,5 +19,5 @@ Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=tru
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %multicpu% | %memory% | %disku% | %enp3s0% | %default:Master%    <fc=#81a1c1>%date%</fc>%trayerpad%"
+       , template = "%StdinReader% }{ %multicpu% ┃ %memory% ┃ %disku% ┃ %enp3s0% ┃ %default:Master%    <fc=#81a1c1>%date%</fc>%trayerpad%"
        }
