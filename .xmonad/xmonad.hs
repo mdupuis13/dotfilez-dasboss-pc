@@ -77,11 +77,11 @@ myBorderWidth :: Dimension
 myBorderWidth = 2           -- Sets border width for windows
 
 myNormColor :: String
-myNormColor   = "#3b4252"   -- Border color of normal windows
+myNormColor   = "#2e3440"   -- Border color of normal windows
 --myNormColor   = "#1e1d1d"   -- Border color of normal windows
 
 myFocusColor :: String
-myFocusColor  = "#81a1c1"   -- Border color of focused windows
+myFocusColor  = "#4c566a"   -- Border color of focused windows
 
 myLightColor :: String
 myLightColor  = "#a3be8c"   -- Border color of active workspace 
@@ -112,7 +112,7 @@ myStartupHook = do
     -- bind special keys (double-click on mouse 9 mainly)
     spawnOnce "xbindkeys_autostart"
     -- load the tray space
-    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --iconspacing 2 --transparent true --alpha 250 --tint 0x2e3440  --height 24 &"
+    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --iconspacing 2 --transparent true --alpha 255 --tint 0x2e3440 --height 14 &"
     -- Volume control for systray
     --spawnOnce "pnmixer &"
     -- Start Clipboard manager
@@ -331,7 +331,7 @@ myKeys =
 main :: IO ()
 main = do
     -- Launching three instances of xmobar on their monitors.
-    xmproc0 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc-1"
+    -- xmproc0 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc-1"
     xmproc1 <- spawnPipe "xmobar -x 2 $HOME/.config/xmobar/xmobarrc-2"
 
     -- the xmonad, ya know...what the WM is named after!
@@ -339,15 +339,16 @@ main = do
             { manageHook         = insertPosition End Newer <+> myManageHook <+> manageDocks
             , handleEventHook    = docksEventHook
             , logHook = dynamicLogWithPP $ xmobarPP
-                        {ppOutput = \x -> hPutStrLn xmproc0 x                          -- xmobar on monitor 1
-                                       >> hPutStrLn xmproc1 x                          -- xmobar on monitor 2 
+                        --{ppOutput = \x -> hPutStrLn xmproc0 x                          -- xmobar on monitor 1
+                        --               >> hPutStrLn xmproc1 x                          -- xmobar on monitor 2 
+                        {ppOutput = \x -> hPutStrLn xmproc1 x                          -- xmobar on monitor 1
                         , ppCurrent = xmobarColor myLightColor "" . wrap "[" "]"
-                        , ppVisible = xmobarColor myFocusColor ""               -- Visible but not current workspace
-                        , ppHidden = xmobarColor myFocusColor "" . wrap "*" ""  -- Hidden workspaces
-                        , ppHiddenNoWindows = xmobarColor myHiddenColor ""       -- Hidden workspaces (no windows)
-                        , ppLayout = xmobarColor myFocusColor ""
-                        , ppTitle = xmobarColor myFocusColor "" . shorten 80
-                        , ppSep =   "<fc=#5e81ac> ┃ </fc>"
+                        , ppVisible = xmobarColor "#5e81ac" ""               -- Visible but not current workspace
+                        , ppHidden = xmobarColor "#5e81ac" "" . wrap "*" ""  -- Hidden workspaces
+                        , ppHiddenNoWindows = xmobarColor "#434c5e" ""       -- Hidden workspaces (no windows)
+                        , ppLayout = xmobarColor "#5e81ac" ""
+                        , ppTitle = xmobarColor "#5e81ac" "" . shorten 80
+                        , ppSep =   "<fc=#4e566a> ┃ </fc>"
                         }
             , modMask = myModMask
             , terminal = myTerminal
