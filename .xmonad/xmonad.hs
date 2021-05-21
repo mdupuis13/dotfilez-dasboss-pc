@@ -112,7 +112,7 @@ myStartupHook = do
     -- bind special keys (double-click on mouse 9 mainly)
     spawnOnce "xbindkeys_autostart"
     -- load the tray space
-    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --iconspacing 2 --transparent true --alpha 255 --tint 0x2e3440 --height 14 &"
+    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor principal --iconspacing 2 --transparent true --alpha 0 --tint 0x2e3440 --height 26 &"
     -- Volume control for systray
     --spawnOnce "pnmixer &"
     -- Start Clipboard manager
