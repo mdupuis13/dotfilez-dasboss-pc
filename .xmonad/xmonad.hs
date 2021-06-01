@@ -174,7 +174,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  ||| floats
 
 -- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 "]
-myWorkspaces = ["main", "www", "dev", "comm", "sys", "vbox", "media", "gfx"]
+myWorkspaces = ["1main", "2www", "3dev", "4comm", "5sys", "6vbox", "7media", "8gfx"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
@@ -201,6 +201,7 @@ myManageHook = (isDialog --> doF W.swapUp) <+> composeAll
      , className =? "Brave-browser"   --> doShift ( myWorkspaces !! 1 )
      , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
      , className =? "Google Hangouts – mdupuis13@gmail.com"     --> doShift ( myWorkspaces !! 2)
+     , className =? "Claws-mail"      --> doShift ( myWorkspaces !! 3 )
      , className =? "mpv"             --> doShift ( myWorkspaces !! 6 )
      , className =? "Audacious"       --> doShift ( myWorkspaces !! 6 )
      , className =? "vlc"             --> doShift ( myWorkspaces !! 6 )
@@ -241,6 +242,7 @@ myKeys =
     -- Useful programs to have a keybinding for launch
         , ("M-<Return>", spawn (myTerminal))
         , ("M-b", runOrRaise "firefox" (className =? "Firefox-esr"))
+        , ("M-c", runOrRaise "claws-mail" (className =? "Claws-mail"))
         , ("M-S-b", spawn (myBrowser ++ " about:blank"))
         , ("M-M1-h", spawn (myTerminal ++ " -e htop"))
         , ("M-M1-e", spawn (myFileManager))
