@@ -71,7 +71,7 @@ myBrowser :: String
 myBrowser = "firefox "  -- Sets firefox as browser
 
 myFileManager :: String
-myFileManager = "thunar "  -- Sets my prefered file manager 
+myFileManager = "pcmanfm"  -- Sets my prefered file manager 
 
 myBorderWidth :: Dimension
 myBorderWidth = 2           -- Sets border width for windows
@@ -174,7 +174,8 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  ||| floats
 
 -- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 "]
-myWorkspaces = ["1main", "2www", "3dev", "4comm", "5sys", "6vbox", "7media", "8gfx"]
+myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8"]
+--myWorkspaces = ["1main", "2www", "3dev", "4comm", "5sys", "6vbox", "7media", "8gfx"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
