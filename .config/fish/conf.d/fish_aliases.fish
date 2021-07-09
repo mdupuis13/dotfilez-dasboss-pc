@@ -37,7 +37,7 @@ alias fgrep='fgrep --color=auto'
 # confirm before overwriting something
 alias cp="cp -i"
 alias mv='mv -i'
-alias rm='rm -i'
+alias rm='rm -I'
 
 # adding flags
 alias df='df -h'                          # human-readable sizes
