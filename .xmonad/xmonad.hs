@@ -122,6 +122,9 @@ myStartupHook = do
     spawnOnce "bl-xdg-autostart"
     -- set default wallpaper
     spawnOnce "nitrogen --restore"
+    -- start screensaver daemon
+    spawnOnce "xscreensaver --no-splash"
+    
     
 --Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
