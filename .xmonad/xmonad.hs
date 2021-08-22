@@ -227,6 +227,7 @@ myKeys =
     -- Run Prompt
         -- , ("M-S-<Return>", spawn "dmenu_run -i -p \"Run: \"") -- Dmenu
         , ("M-p", spawn "dmenu_run -i -nb '#2E3440' -nf '#81a1c1' -sb '#5e81ac' -sf '#2E3440'") -- Dmenu
+        , ("M-r", spawn "rofi -show drun")
 
     -- Other Dmenu Prompts
     -- In Xmonad and many tiling window managers, M-p is the default keybinding to

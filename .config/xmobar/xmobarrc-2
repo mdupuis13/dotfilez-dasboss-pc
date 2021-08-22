@@ -8,7 +8,7 @@ Config { font = "xft:Sauce Code Pro Nerd Font Mono:regular:size=12:antialias=tru
        , fgColor = "#4e566a"
        , position = Top
        , iconRoot = "/home/mdupuis/.xmonad/xpm/"  -- default: "."
-       , commands = [ Run MultiCpu ["-t","<fn=1></fn> <fc=#5e81ac><autototal></fc>","-L","15","-H","50","--normal","#a3be8c","--high","#bf616a"] 20
+       , commands = [ Run MultiCpu ["-t","<fn=1></fn> <fc=#5e81ac><autototal></fc>","-L","40","-H","75","--low","#a3be8c","--normal","#ebcb8b","--high","#bf616a"] 20
                     , Run Memory ["-t","<fn=1></fn> <fc=#5e81ac><usedratio>%</fc>"] 20
                     , Run DiskU [("/home", "<fn=1></fn><fc=#5e81ac><usedp>%/<size></fc>"), ("/home/mdupuis/Music", "<fn=1></fn><fc=#5e81ac><usedp>%/<size></fc>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
                     -- Network up and down
