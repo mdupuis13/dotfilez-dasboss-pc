@@ -149,7 +149,7 @@ set -g __md_git_color_rev_fg_warn "bf616a"
 
 
 function __md_print_git_branch_state
-    set upstream_state (command git rev-list --count --left-right "@{upstream}...HEAD" ^ /dev/null)
+    set upstream_state (command git rev-list --count --left-right "@{upstream}...HEAD" ^HEAD 2> /dev/null)
     if [ $status = 0 ]
       echo -n "$upstream_state" | command awk "
           /0\t0/          { exit 0 }
@@ -175,7 +175,7 @@ function __md_print_git_revlabel
   # No!
 
   # Is it a tag?
-  set rev (command git describe --tags --exact-match ^/dev/null)
+  set rev (command git describe --tags --exact-match ^HEAD 2>/dev/null)
   if [ $status = 0 ]
     echo -n " $__md_git_icon_tag $rev "
     return 0
