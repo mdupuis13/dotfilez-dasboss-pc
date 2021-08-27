@@ -103,7 +103,8 @@ myStartupHook = do
     -- Change screen laytou to put second monitor on top of UWXGA
     -- spawnOnce "$HOME/.screenlayout/md-default.layout.sh && sleep 1"
     -- Compton
-    spawnOnce "compton &"
+    --spawnOnce "compton &"
+    spawnOnce "picom &"
     -- GNOME PolicyKit authentication
     spawnOnce "/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &"
     -- Start the Conky session (the default conkyrc will run if no sessions have been set)

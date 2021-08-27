@@ -2,7 +2,7 @@
 # First line removes the path; second line sets it.  Without the first line,
 # your path gets massive and fish becomes very slow.
 set -e fish_user_paths
-set -U fish_user_paths $HOME/go/bin $HOME/bin $HOME/.local/bin $fish_user_paths
+set -U fish_user_paths $HOME/go/bin $HOME/.cargo/bin $HOME/bin $HOME/.local/bin $fish_user_paths
 set fish_prompt_pwd_dir_length 1
 
 # set yourself as the default user
