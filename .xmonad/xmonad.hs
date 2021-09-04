@@ -209,6 +209,7 @@ myManageHook = (isDialog --> doF W.swapUp) <+> composeAll
      , className =? "Claws-mail"      --> doShift ( myWorkspaces !! 3 )
      , className =? "mpv"             --> doShift ( myWorkspaces !! 6 )
      , className =? "Audacious"       --> doShift ( myWorkspaces !! 6 )
+     , className =? "Clementine"      --> doShift ( myWorkspaces !! 6 )
      , className =? "vlc"             --> doShift ( myWorkspaces !! 6 )
      , className =? "Gimp"            --> doShift ( myWorkspaces !! 7 )
      , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 5 )
