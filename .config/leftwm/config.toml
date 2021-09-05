@@ -1,7 +1,7 @@
 modkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
-tags = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+tags = ["www", "dev", "dev2", "comm", "vm", "vid", "gfx"]
 layouts = ["CenterMain", "Monocle", "MainAndVertStack", "MainAndHorizontalStack", "GridHorizontal", "EvenHorizontal", "RightWiderLeftStack"]
 scratchpad = []
 disable_current_tag_swap = false
@@ -145,6 +145,18 @@ modifier = ["modkey"]
 key = "Left"
 
 [[keybind]]
+command = "IncreaseMainWidth"
+value = "5"
+modifier = ["modkey", "Control"]
+key = "k"
+
+[[keybind]]
+command = "DecreaseMainWidth"
+value = "5"
+modifier = ["modkey", "Control"]
+key = "j"
+
+[[keybind]]
 command = "GotoTag"
 value = "1"
 modifier = ["modkey"]
@@ -271,9 +283,3 @@ command = "Execute"
 value = "pcmanfm"
 modifier = ["modkey"]
 key = "e"
-
-[[keybind]]
-command = "Execute"
-value = "amixer set Master 5%+ unmute"
-modifier = []
-key = "XF86Audio_RaiseVolume"

@@ -122,7 +122,7 @@
 #"scrot -d 10 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/Pictures/screenshots/ ; bl-image-viewer ~/Pictures/screenshots/$f'"
 #    Control + Alt + Print
 
-# mdupuis settings
+## mdupuis settings
 # double-click on M570 mouse 9 (front left button) release
 "/usr/bin/xte 'mouseclick 1' 'mouseclick 1' &amp;"
 b:9 + Release
@@ -131,6 +131,40 @@ b:9 + Release
 #"xbindkeys_show"
 #    Control + Shift + q
 
+# web browser
+"firefox"
+   XF86HomePage
+
+# email
+"claws-mail"
+   XF86Mail
+
+   
+# file manager
+"pcmanfm"
+   XF86Explorer
+
+# calculator
+"galculator"
+   XF86Calculator
+   
+# Multimedia keys
+#XF86AudioPrev
+#XF86AudioNext
+#XF86AudioPlay
+#XF86AudioStop
+
+# Increase volume
+"amixer set Master 5%+ unmute"
+   XF86AudioRaiseVolume
+
+# Decrease volume
+"amixer set Master 5%- unmute"
+   XF86AudioLowerVolume
+
+# Decrease volume
+"amixer set Master toggle"
+   XF86AudioMute
 ##################################
 # End of xbindkeys configuration #
 ##################################
