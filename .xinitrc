@@ -1,0 +1,2 @@
+exec dbus-launch leftwm
+
