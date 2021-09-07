@@ -1,4 +1,4 @@
-modkey = "Mod4"
+qmodkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
 tags = ["www", "dev", "dev2", "comm", "vm", "vid", "gfx", "gg", "xtra"]
