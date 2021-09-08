@@ -5,7 +5,7 @@ tags = ["www", "dev", "dev2", "comm", "vm", "vid", "gfx", "gg", "xtra"]
 layouts = ["CenterMain", "Monocle", "MainAndVertStack", "MainAndHorizontalStack", "GridHorizontal", "EvenHorizontal", "RightWiderLeftStack"]
 scratchpad = []
 disable_current_tag_swap = false
-focus_behaviour = "Sloppy"
+focus_behaviour = "ClickTo"
 focus_new_windows = true
 
 [[keybind]]
