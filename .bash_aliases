@@ -11,3 +11,5 @@ alias gitmstr='git checkout master'
 alias gitp='git push'
 alias gitr='git remote -vv'
 alias gits='git status'
+
+alias which='command -v'

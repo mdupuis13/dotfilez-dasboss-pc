@@ -1,11 +1,11 @@
-qmodkey = "Mod4"
+modkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
-tags = ["www", "dev", "dev2", "comm", "vm", "vid", "gfx", "gg", "xtra"]
-layouts = ["CenterMain", "Monocle", "MainAndVertStack", "MainAndHorizontalStack", "GridHorizontal", "EvenHorizontal", "RightWiderLeftStack"]
+tags = ["www ♖", "dev", "dev2", "comm", "vm", "vid", "gfx", "gg", "xtra"]
+layouts = ["CenterMain", "MainAndVertStack", "RightWiderLeftStack", "Monocle", "GridHorizontal", "EvenHorizontal"]
 scratchpad = []
-disable_current_tag_swap = false
-focus_behaviour = "ClickTo"
+disable_current_tag_swap = true
+focus_behaviour = "Sloppy"
 focus_new_windows = true
 
 [[keybind]]
@@ -41,7 +41,7 @@ key = "x"
 command = "Execute"
 value = "light-locker-command -l"
 # value = "slock"
-modifier = ["modkey", "Control"]
+modifier = ["modkey", "Mod1"]
 key = "l"
 
 [[keybind]]
@@ -148,13 +148,13 @@ key = "Left"
 command = "IncreaseMainWidth"
 value = "5"
 modifier = ["modkey", "Control"]
-key = "k"
+key = "equal"
 
 [[keybind]]
 command = "DecreaseMainWidth"
 value = "5"
 modifier = ["modkey", "Control"]
-key = "j"
+key = "minus"
 
 [[keybind]]
 command = "GotoTag"
