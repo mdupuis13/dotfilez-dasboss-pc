@@ -1,7 +1,7 @@
 modkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
-tags = ["", "", "'", "", "", "", "", ""]
+tags = ["", "", "", "", "", "磊", "", ""]
 layouts = ["CenterMain", "MainAndVertStack", "RightWiderLeftStack", "Monocle", "GridHorizontal", "EvenHorizontal"]
 scratchpad = []
 disable_current_tag_swap = true
