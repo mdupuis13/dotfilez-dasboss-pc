@@ -1,7 +1,7 @@
 modkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
-tags = ["www ♖", "dev", "dev2", "comm", "vm", "vid", "gfx", "gg", "xtra"]
+tags = ["", "", "'", "", "", "", "", ""]
 layouts = ["CenterMain", "MainAndVertStack", "RightWiderLeftStack", "Monocle", "GridHorizontal", "EvenHorizontal"]
 scratchpad = []
 disable_current_tag_swap = true
@@ -283,3 +283,4 @@ command = "Execute"
 value = "pcmanfm"
 modifier = ["modkey"]
 key = "e"
+
