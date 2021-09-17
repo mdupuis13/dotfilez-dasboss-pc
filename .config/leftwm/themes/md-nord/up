@@ -29,7 +29,7 @@ elif [ -x "$(command -v feh)" ]; then
 fi
 
 monitor=HDMI2 offsetx=0 width=3440 polybar -c $SCRIPTPATH/polybar.config mainbar0 &> /dev/null &
-monitor=HDMI1 offsetx=0 width=1680 polybar -c $SCRIPTPATH/polybar.config mainbar1 &> /dev/null &
+monitor=HDMI1 offsetx=0 width=1920 polybar -c $SCRIPTPATH/polybar.config mainbar1 &> /dev/null &
 
 #index=0
 #monitor="$(polybar -m | grep +0+0 | sed s/:.*// | tac)"
