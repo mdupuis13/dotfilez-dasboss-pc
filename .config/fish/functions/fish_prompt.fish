@@ -3,6 +3,7 @@
 set -g __md_prompt_icon_fail    "⌁"
 set -g __md_prompt_icon_success "—"
 set -g __md_prompt_icon_ssh     " SSH: "
+#set -g __md_prompt_icon_prompt  "ﲵ"
 set -g __md_prompt_icon_prompt  ""
 set -g __md_prompt_icon_root    "!"
 
