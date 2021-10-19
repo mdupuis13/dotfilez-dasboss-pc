@@ -268,7 +268,7 @@ key = "9"
 # Application keybinds
 [[keybind]]
 command = "Execute"
-value = "firefox"
+value = "brave-browser"
 modifier = ["modkey"]
 key = "b"
 
