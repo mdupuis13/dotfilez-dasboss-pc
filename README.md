@@ -1,7 +1,8 @@
 # dotfiles-dasboss-pc
 
 ## dotFilez repo
-[The best way to store your dotfiles: A bare Git repository](https://www.atlassian.com/git/tutorials/dotfiles)
+- [The best way to store your dotfiles: A bare Git repository](https://www.atlassian.com/git/tutorials/dotfiles)
+- [A simpler way to manage your dotfiles - ANAND IYER](https://www.anand-iyer.com/blog/2018/a-simpler-way-to-manage-your-dotfiles.html)
 
 ## backup config
 
