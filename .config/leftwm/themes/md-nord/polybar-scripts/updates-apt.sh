@@ -1,18 +1,46 @@
 #!/bin/sh
 
+#set -xe
+
 message=""
-sudo apt-get update 1> /dev/null
-updates=$(apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1);
 
-if [ "$updates" -gt 0 ]; then
-    message="$updates pkg"
+fetchUpdates () {
+  sudo apt-get update 1> /dev/null
+  return $?
+}
+
+getNumberOfiNormalUpdates () {
+  updates=$(apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1);
+
+  if [ "$updates" -gt 0 ]; then
+      message="$updates pkg"
+  fi
+
+  return 0
+}
+
+getNumberOfSecurityUpdates () {
+  updates=0
+  updates=$(apt-get upgrade -s |grep -P '^\d+ \w\ssecurity'|cut -d" " -f1);
+
+  if [ ! -z "$updates" ] && [ "$updates" -gt 0 ]; then
+      message+=" $updates sec"
+  fi
+
+  return 0
+}
+
+printMessage() {
+  echo $message
+  return 0
+}
+
+fetchUpdates
+
+if [ $? -gt 0 ]; then
+  getNumberOfiNormalUpdates
+  getNumberOfSecurityUpdates
 fi
 
-updates=0
-updates=$(apt-get upgrade -s |grep -P '^\d+ \w\ssecurity'|cut -d" " -f1);
 
-if [ ! -z "$updates" ] && [ "$updates" -gt 0 ]; then
-    message+=" $updates sec"
-fi
-
-echo $message
+printMessage
