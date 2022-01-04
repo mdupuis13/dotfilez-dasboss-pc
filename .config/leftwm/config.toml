@@ -268,7 +268,8 @@ key = "9"
 # Application keybinds
 [[keybind]]
 command = "Execute"
-value = "brave-browser --use-gl=desktop --enable-features=VaapiVideoDecoder"
+value = "firefox"
+#value = "brave-browser --use-gl=desktop --enable-features=VaapiVideoDecoder"
 modifier = ["modkey"]
 key = "b"
 
