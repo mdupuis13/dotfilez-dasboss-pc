@@ -18,7 +18,8 @@ elif [ -x "$(command -v picom)" ]; then
 fi
 
 #set the theme.toml config
-echo "LoadTheme $SCRIPTPATH/theme.toml" > $XDG_RUNTIME_DIR/leftwm/commands.pipe
+#echo "LoadTheme $SCRIPTPATH/theme.toml" > $XDG_RUNTIME_DIR/leftwm/commands-0.pipe
+leftwm command "LoadTheme $SCRIPTPATH/theme.toml"
 
 
 #set background
