@@ -26,5 +26,9 @@ if [ -d "/snap/bin" ] ; then
     PATH="$PATH:/snap/bin"
 fi
 
+# set keyboard media keys
+xbindkeys_autostart &
+
+
 # desktop locking program "daemon"
 /usr/bin/light-locker &
