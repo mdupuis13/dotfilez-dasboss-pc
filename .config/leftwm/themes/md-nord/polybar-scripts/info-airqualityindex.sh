@@ -24,15 +24,15 @@ if [ -n "$aqi" ]; then
         aqi=$(echo "$aqi" | jq '.data.aqi')
 
         if [ "$aqi" -lt 51 ]; then
-            echo "%{B#a3be8c}%{T3}$prefix%{T-} $aqi  %{B-}"
+            echo "%{F#a3be8c}%{T3}$prefix%{T-} $aqi  %{B-}"
         elif [ "$aqi" -lt 101 ]; then
-            echo "%{B#ebcb8b}%{T3}$prefix%{T-} $aqi  %{B-}"
+            echo "%{F#ebcb8b}%{T3}$prefix%{T-} $aqi  %{B-}"
         elif [ "$aqi" -lt 151 ]; then
-            echo "%{B#d08770}%{T3}$prefix%{T-} $aqi  %{B-}"
+            echo "%{F#d08770}%{T3}$prefix%{T-} $aqi  %{B-}"
         elif [ "$aqi" -lt 201 ]; then
-            echo "%{B#bf616a}%{T3}$prefix%{T-} $aqi  %{B-}"
+            echo "%{F#bf616a}%{T3}$prefix%{T-} $aqi  %{B-}"
         elif [ "$aqi" -lt 301 ]; then
-            echo "%{B#b48ead}%{T3}$prefix%{T-} $aqi  %{B-}"
+            echo "%{F#b48ead}%{T3}$prefix%{T-} $aqi  %{B-}"
         else
             echo "%{T3}$prefix%{T-} $aqi  "
         fi

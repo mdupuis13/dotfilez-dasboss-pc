@@ -1,4 +1,4 @@
-%{T3}%{F#A80030}%{B#d8dee9}  %{B-}%{F-}%{T-}   {{ workspace.layout }}    
+%{T3}%{F#A80030}%{B#d8dee9}  %{B-}%{F#81a1c1}%{T-}   {{ workspace.layout }}    
 {% for tag in workspace.tags %}
 {% if tag.mine %}
 %{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}
@@ -6,15 +6,15 @@
 %{A}
 {% elsif tag.visible  %}
 %{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}
-%{T5}%{F#a3be8c}%{B#4c566a} {{tag.name}} %{B-}%{F-}%{T-}
+%{T5}%{F#a3be8c}%{B#cc2e3440} {{tag.name}} %{B-}%{F-}%{T-}
 %{A}
 {% elsif tag.busy %}
 %{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}
-%{T5}%{F#5e81ac}%{B#4c566a} {{tag.name}} %{B-}%{F-}%{T-}
+%{T5}%{F#5e81ac}%{B#cc2e3440} {{tag.name}} %{B-}%{F-}%{T-}
 %{A}
 {% else tag.visible  %}
 %{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}
-%{T5}%{F#2e3440}%{B#4c566a} {{tag.name}} %{B-}%{F-}%{T-}
+%{T5}%{F#4c566a}%{B#cc2e3440} {{tag.name}} %{B-}%{F-}%{T-}
 %{A}
 {% endif %}
 {% endfor %}

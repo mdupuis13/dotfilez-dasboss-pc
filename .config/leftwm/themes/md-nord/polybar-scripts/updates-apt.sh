@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 #set -xe
 
@@ -9,7 +9,7 @@ fetchUpdates () {
   return $?
 }
 
-getNumberOfiNormalUpdates () {
+getNumberOfNormalUpdates () {
   updates=$(apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1);
 
   if [ "$updates" -gt 0 ]; then
@@ -38,7 +38,7 @@ printMessage() {
 fetchUpdates
 
 if [ $? -gt 0 ]; then
-  getNumberOfiNormalUpdates
+  getNumberOfNormalUpdates
   getNumberOfSecurityUpdates
 fi
 
