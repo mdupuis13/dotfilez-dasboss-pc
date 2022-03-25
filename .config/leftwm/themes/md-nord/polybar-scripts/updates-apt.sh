@@ -12,9 +12,9 @@ fetchUpdates () {
 getNumberOfNormalUpdates () {
   updates=$(apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1);
 
-  if [ "$updates" -gt 0 ]; then
+#  if [ "$updates" -gt 0 ]; then
       message="$updates pkg"
-  fi
+#  fi
 
   return 0
 }
@@ -37,7 +37,7 @@ printMessage() {
 
 fetchUpdates
 
-if [ $? -gt 0 ]; then
+if [ $? -eq 0 ]; then
   getNumberOfNormalUpdates
   getNumberOfSecurityUpdates
 fi
