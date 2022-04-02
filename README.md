@@ -45,7 +45,7 @@ Section "InputClass"
     Option "XAxisMapping" "6 7"
 EndSection
 ```
-Et le fichier `/etc/X11/xorg.conf.d/99-elecom-huge-scroll.conf
+Et le fichier `/etc/X11/xorg.conf.d/99-elecom-huge-scroll.conf`
 ``` 
 Section "InputClass"
     Identifier   "Elecom HUGE scroll config"
