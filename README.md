@@ -45,3 +45,15 @@ Section "InputClass"
     Option "XAxisMapping" "6 7"
 EndSection
 ```
+Et le fichier `/etc/X11/xorg.conf.d/99-elecom-huge-scroll.conf
+``` 
+Section "InputClass"
+    Identifier   "Elecom HUGE scroll config"
+    MatchDriver  "libinput"
+    MatchVendor  "ELECOM"
+    MatchProduct "HUGE TrackBall"
+    Option       "ScrollMethod" "button"
+    Option       "ScrollButton" "9"
+    Option       "ButtonMapping" "1 2 3 4 5 6 7 8 2 10 11 12"
+EndSection
+```
