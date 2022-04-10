@@ -55,7 +55,7 @@ get_duration() {
 KEY="968080a335b52d743ca1364a0f93aec8"
 CITY="Vaudreuil-Dorion"
 UNITS="metric"
-SYMBOL="°"
+SYMBOL=""
 
 API="https://api.openweathermap.org/data/2.5"
 
@@ -89,25 +89,24 @@ if [ -n "$current" ] && [ -n "$forecast" ]; then
 
 
     if [ "$current_temp" -gt "$forecast_temp" ]; then
-        trend=""
+        trend=""
     elif [ "$forecast_temp" -gt "$current_temp" ]; then
-        trend=""
+        trend=""
     else
-        trend="◼"
+        trend=""
     fi
 
+    # sun_rise=$(echo "$current" | jq ".sys.sunrise")
+    # sun_set=$(echo "$current" | jq ".sys.sunset")
+    # now=$(date +%s)
 
-    sun_rise=$(echo "$current" | jq ".sys.sunrise")
-    sun_set=$(echo "$current" | jq ".sys.sunset")
-    now=$(date +%s)
+    # if [ "$sun_rise" -gt "$now" ]; then
+    #     daytime=" $(get_duration "$((sun_rise-now))")"
+    # elif [ "$sun_set" -gt "$now" ]; then
+    #     daytime="%{T4} %{T-}$(get_duration "$((sun_set))")"
+    # else
+    #     daytime="%{T4}%{T-} $(get_duration "$((sun_rise))")"
+    # fi
 
-    if [ "$sun_rise" -gt "$now" ]; then
-        daytime=" $(get_duration "$((sun_rise-now))")"
-    elif [ "$sun_set" -gt "$now" ]; then
-        daytime="%{T4} %{T-}$(get_duration "$((sun_set))")"
-    else
-        daytime="%{T4}%{T-} $(get_duration "$((sun_rise))")"
-    fi
-
-    echo " %{T4}$(get_icon "$current_icon")%{T-} $current_temp$SYMBOL %{T4}$trend%{T-}  %{T4}$(get_icon "$forecast_icon")%{T-} $forecast_temp$SYMBOL   $daytime "
+    echo "%{T4}$(get_icon "$current_icon")%{T-} $current_temp$SYMBOL $trend  %{T4}$(get_icon "$forecast_icon")%{T-} $forecast_temp$SYMBOL"
 fi
