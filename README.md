@@ -46,6 +46,7 @@ Section "InputClass"
 EndSection
 ```
 ### ELECOM TrackBall Mouse HUGE TrackBall
+[reference](https://unix.stackexchange.com/questions/624655/how-to-configure-the-elecom-huge-trackball-to-scroll-with-the-ball)
 ``` 
 Section "InputClass"
     Identifier   "Elecom HUGE scroll config"
