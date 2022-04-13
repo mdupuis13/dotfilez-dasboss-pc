@@ -13,22 +13,22 @@ getNumberOfNormalUpdates () {
   updates=$(apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1);
 
 #  if [ "$updates" -gt 0 ]; then
-      message="$updates pkg"
+      message="$updates"
 #  fi
 
   return 0
 }
 
-getNumberOfSecurityUpdates () {
-  updates=0
-  updates=$(apt-get upgrade -s |grep -P '^\d+ \w\ssecurity'|cut -d" " -f1);
+#getNumberOfSecurityUpdates () {
+  #updates=0
+  #updates=$(apt-get upgrade -s |grep -P '^\d+ \w\ssecurity'|cut -d" " -f1);
 
-  if [ ! -z "$updates" ] && [ "$updates" -gt 0 ]; then
-      message+=" $updates sec"
-  fi
+  #if [ ! -z "$updates" ] && [ "$updates" -gt 0 ]; then
+      #message+=" $updates sec"
+  #fi
 
-  return 0
-}
+  #return 0
+#}
 
 printMessage() {
   echo $message
@@ -39,7 +39,7 @@ fetchUpdates
 
 if [ $? -eq 0 ]; then
   getNumberOfNormalUpdates
-  getNumberOfSecurityUpdates
+#  getNumberOfSecurityUpdates
 fi
 
 
