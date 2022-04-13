@@ -45,7 +45,7 @@ Section "InputClass"
     Option "XAxisMapping" "6 7"
 EndSection
 ```
-Et le fichier `/etc/X11/xorg.conf.d/99-elecom-huge-scroll.conf`
+Et/ou le fichier `/etc/X11/xorg.conf.d/99-elecom-huge-scroll.conf`
 ``` 
 Section "InputClass"
     Identifier   "Elecom HUGE scroll config"
@@ -56,4 +56,24 @@ Section "InputClass"
     Option       "ScrollButton" "9"
     Option       "ButtonMapping" "1 2 3 4 5 6 7 8 2 10 11 12"
 EndSection
+```
+
+### Keychron K8 function keys mapping
+[gist](https://gist.github.com/andrebrait/961cefe730f4a2c41f57911e6195e444)
+#### Summary
+Here's some [documentation](https://help.ubuntu.com/community/AppleKeyboard#Change_Function_Key_behavior) on it, but a quick summary can be found below:
+
+> - 0 = `disabled`: Disable the 'fn' key. Pressing 'fn'+'F8' will behave like you only press 'F8'
+> - 1 = `fkeyslast`: Function keys are used as last key. Pressing 'F8' key will act as a special key. Pressing 'fn'+'F8' will behave like a F8.
+> - -> 2 = `fkeysfirst`: Function keys are used as first key. Pressing 'F8' key will behave like a F8. Pressing 'fn'+'F8' will act as special key (play/pause).
+
+```bash
+# replace <value> below with the one that worked for you in the previous step (0, 1 or 2)
+# example: echo "options hid_apple fnmode=2 | sudo tee /etc/modprobe.d/hid_apple.conf"
+# this will erase any pre-existing contents from /etc/modprobe.d/hid_apple.conf
+echo "options hid_apple fnmode=<value>" | sudo tee /etc/modprobe.d/hid_apple.conf
+# the "-k all" part is not always needed, but it's better to do that for all kernels anyway
+sudo update-initramfs -u -k all
+sudo systemctl reboot
+
 ```
